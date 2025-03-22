@@ -14,7 +14,7 @@ const OpioidOverdosePlot = () => {
         const parsedData = Papa.parse(csvData, { header: true }).data;
         processData(parsedData);
       });
-  }, []);
+  });
 
   const processData = (data: any[]) => {
     setTimePoints([...new Set(data.map((d) => d.year_quarter))].sort());

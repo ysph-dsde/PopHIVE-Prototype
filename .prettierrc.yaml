@@ -1,0 +1,13 @@
+# .prettierrc
+# https://prettier.io/docs/en/options
+
+trailingComma: "all"
+printWidth: 80
+tabWidth: 2
+tabs: true
+semi: true
+singleQuote: false
+jsxSingleQuote: false
+bracketSpacing: true
+bracketSameLine: false
+singleAttributePerLine: true

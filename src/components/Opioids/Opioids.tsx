@@ -1,6 +1,10 @@
 import { Box, Tab, Tabs } from "@mui/material";
 import OpioidOverdosePlot from "./OpioidsOverdose";
 import { ReactNode, SyntheticEvent, useState } from "react";
+import ChoroplethMap from "./OpioidsMap";
+import OpioidsWafflePlot from "./OpioidsWaffle";
+
+import OpioidWafflePlot from "./OpioidsWaffle";
 
 interface TabPanelProps {
   children?: ReactNode;
@@ -69,13 +73,20 @@ const Opioids = () => {
         value={value}
         index={1}
       >
-        Coming soon!
+        <ChoroplethMap
+          csvPath="/opioid_ahrq_map.csv"
+          title="AHRQ"
+        />
+        <ChoroplethMap
+          csvPath="/opioid_wonder_map.csv"
+          title="CDC Wonder"
+        />
       </CustomTabPanel>
       <CustomTabPanel
         value={value}
         index={2}
       >
-        Coming soon!
+        <OpioidWafflePlot />
       </CustomTabPanel>
     </Box>
   );

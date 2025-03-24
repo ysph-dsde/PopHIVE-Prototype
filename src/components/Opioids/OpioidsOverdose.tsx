@@ -89,12 +89,12 @@ const OpioidOverdosePlot = () => {
           },
           yaxis2: {
             tickformat: ",",
-            range: [0, 250000],
+            range: [0, 40000],
           },
           legend: { x: 1, y: 1 },
           annotations: [
             {
-              text: "AHRQ",
+              text: "Hospitalization (AHRQ)",
               showarrow: false,
               font: { size: 16 },
               x: 0.5,
@@ -103,7 +103,7 @@ const OpioidOverdosePlot = () => {
               yref: "y domain",
             },
             {
-              text: "CDC WONDER",
+              text: "Deaths (CDC Wonder)",
               showarrow: false,
               font: { size: 16 },
               x: 0.5,

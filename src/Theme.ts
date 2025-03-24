@@ -1,6 +1,6 @@
 import { createTheme } from "@mui/material/styles";
 
-const yaleBlue = "#00356b"; // Official Yale Blue color
+const yaleBlue = "#122340";
 
 export const theme = createTheme({
   palette: {

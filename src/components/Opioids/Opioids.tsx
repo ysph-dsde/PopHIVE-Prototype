@@ -57,10 +57,10 @@ const Opioids = () => {
             label="Map of opioid overdoses"
             {...a11yProps(1)}
           />
-          <Tab
+          {/* <Tab
             label="Type of opioid"
             {...a11yProps(2)}
-          />
+          /> */}
         </Tabs>
       </Box>
       <CustomTabPanel

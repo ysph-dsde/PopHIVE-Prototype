@@ -3,6 +3,13 @@ import { useEffect, useState } from "react";
 import Papa from "papaparse";
 import Plot from "react-plotly.js";
 
+interface DataEntry {
+  dataset: string;
+  year_quarter: string;
+  level: string;
+  count: number;
+}
+
 const OpioidOverdosePlot = () => {
   const [data, setData] = useState<any[] | null>(null);
   const [timePoints, setTimePoints] = useState<string[]>([]);
@@ -11,52 +18,56 @@ const OpioidOverdosePlot = () => {
     fetch("/opioid_time_series.csv") // Use relative path
       .then((response) => response.text())
       .then((csvData) => {
-        const parsedData = Papa.parse(csvData, { header: true }).data;
-        processData(parsedData);
-      });
-  });
+        const parsedData = Papa.parse(csvData, { header: true })
+          .data as DataEntry[];
 
-  const processData = (data: any[]) => {
-    setTimePoints([...new Set(data.map((d) => d.year_quarter))].sort());
+        // Extract unique sorted time points
+        const timePoints = [
+          ...new Set(parsedData.map((d) => d.year_quarter)),
+        ].sort();
 
-    const generateTraces = (filteredData: any[], dataset: string) => {
-      const levels = ["Male", "Female"];
-      const isAHRQ = dataset === "AHRQ"; // Check which data set
-      const COLORS = ["#286dc0", "#00356b"]; // Define colors for Male and Female
+        setTimePoints(timePoints);
 
-      return levels.map((level, i) => {
-        const levelData = filteredData.filter((d) => d.level === level);
-        return {
-          x: timePoints,
-          y: timePoints.map((t) => {
-            const entry = levelData.find((d) => d.year_quarter === t);
-            return entry ? entry.count : null; // Use `null` for missing values
-          }),
-          type: "scatter",
-          mode: "lines",
-          name: level,
-          line: { color: COLORS[i] },
-          xaxis: dataset === "AHRQ" ? "x1" : "x2",
-          yaxis: dataset === "AHRQ" ? "y1" : "y2",
-          legendgroup: level,
-          showlegend: isAHRQ, // Show legend only for AHRQ
-          hovertemplate: "Quarter: %{x}<br>Count: %{y}",
-          connectgaps: false, // Ensures missing data isn't connected
+        // Generate traces
+        const generateTraces = (filteredData: any[], dataset: string) => {
+          const levels = ["Male", "Female"];
+          const isAHRQ = dataset === "AHRQ"; // Check which dataset
+          const COLORS = ["#286dc0", "#00356b"]; // Colors for Male and Female
+
+          return levels.map((level, i) => {
+            const levelData = filteredData.filter((d) => d.level === level);
+            return {
+              x: timePoints,
+              y: timePoints.map((t) => {
+                const entry = levelData.find((d) => d.year_quarter === t);
+                return entry ? entry.count : null; // Use `null` for missing values
+              }),
+              type: "scatter",
+              mode: "lines",
+              name: level,
+              line: { color: COLORS[i] },
+              xaxis: isAHRQ ? "x1" : "x2",
+              yaxis: isAHRQ ? "y1" : "y2",
+              legendgroup: level,
+              showlegend: isAHRQ, // Show legend only for AHRQ
+              hovertemplate: "Quarter: %{x}<br>Count: %{y}",
+              connectgaps: false, // Ensure missing data isn't connected
+            };
+          });
         };
-      });
-    };
 
-    setData([
-      ...generateTraces(
-        data.filter((d) => d.dataset === "AHRQ"),
-        "AHRQ",
-      ),
-      ...generateTraces(
-        data.filter((d) => d.dataset === "CDC WONDER"),
-        "CDC WONDER",
-      ),
-    ]);
-  };
+        setData([
+          ...generateTraces(
+            parsedData.filter((d: any) => d.dataset === "AHRQ"),
+            "AHRQ",
+          ),
+          ...generateTraces(
+            parsedData.filter((d: any) => d.dataset === "CDC WONDER"),
+            "CDC WONDER",
+          ),
+        ]);
+      });
+  }, []); // Run once on mount
 
   const filteredTickVals = timePoints.filter((_, i) => i % 4 === 0);
 

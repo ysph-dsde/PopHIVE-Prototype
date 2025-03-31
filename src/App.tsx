@@ -2,6 +2,7 @@ import { Box, CssBaseline, ThemeProvider, Typography } from "@mui/material";
 import { theme } from "./Theme";
 import ysphLogo from "./assets/images/ysphLogo.png";
 import Opioids from "./components/Opioids/Opioids";
+import RSV from "./components/RespiratoryInfections/RSV/RSV";
 
 const App = () => {
   return (
@@ -36,7 +37,7 @@ const App = () => {
           justifyContent: "space-between",
         }}
       >
-        {/* <Box>
+        <Box>
           <Typography variant="h4">Welcome to PopHive</Typography>
           <Typography>
             This platform is designed to give you timely, clear, and useful
@@ -49,11 +50,13 @@ const App = () => {
             disease insights in the coming months. This project is led by the
             Yale School of Public Health.
           </Typography>
-        </Box> */}
-        {/* <Box>
+        </Box>
+        <Box>
           <Typography variant="h4">Respiratory infections</Typography>
-          <Typography>Content coming soon</Typography>
-        </Box> */}
+          <Typography>
+            <RSV />
+          </Typography>
+        </Box>
         {/* <Box>
           <Typography variant="h4">Childhood immunization rates</Typography>
           <Typography>Content coming soon</Typography>

@@ -1,0 +1,117 @@
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from "@mui/material";
+import { useEffect, useState } from "react";
+import Papa from "papaparse";
+import Plot from "react-plotly.js";
+
+interface DataEntry {
+  level: string;
+  x: string;
+  scaled_cases: number;
+  epiyr: number;
+  epiwk: number;
+}
+
+const PositiveTests = () => {
+  const [data, setData] = useState<DataEntry[]>([]);
+  const [selectedRegion, setSelectedRegion] = useState<string>("");
+  const [filteredData, setFilteredData] = useState<DataEntry[]>([]);
+
+  useEffect(() => {
+    fetch("/rsv_ts_nrevss_test_rsv.csv")
+      .then((response) => response.text())
+      .then((csvData) => {
+        const parsedData: DataEntry[] = Papa.parse(csvData, {
+          header: true,
+          dynamicTyping: true,
+        }).data;
+        setData(parsedData);
+        setSelectedRegion("CT,ME,MA,NH,RI,VT");
+      });
+  }, []);
+
+  useEffect(() => {
+    if (selectedRegion) {
+      setFilteredData(data.filter((row) => row.x === selectedRegion));
+    }
+  }, [selectedRegion, data]);
+
+  const regions = [...new Set(data.map((row) => row.x))];
+
+  const traceData = [...new Set(filteredData.map((row) => row.epiyr))];
+
+  return (
+    <Box>
+      <FormControl fullWidth>
+        <InputLabel>Region</InputLabel>
+        <Select
+          value={selectedRegion}
+          onChange={(e) => setSelectedRegion(e.target.value)}
+          label="Region"
+        >
+          {regions.map((region) => (
+            <MenuItem
+              key={region}
+              value={region}
+            >
+              {region}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+
+      {selectedRegion && (
+        <Plot
+          data={traceData.map((epiyr, index) => ({
+            x: filteredData
+              .filter((row) => row.epiyr === epiyr)
+              .map((row) => row.epiwk),
+            y: filteredData
+              .filter((row) => row.epiyr === epiyr)
+              .map((row) => row.scaled_cases),
+            customdata: filteredData
+              .filter((row) => row.epiyr === epiyr)
+              .map((row) => [row.epiwk]),
+            type: "scatter",
+            mode: "lines",
+            name: `${epiyr}`,
+            hovertemplate:
+              "epiwk: %{customdata[0]}<br>Scaled cases: %{y}<extra></extra>",
+          }))}
+          layout={{
+            xaxis: {
+              title: { text: "Weeks since July" },
+            },
+            yaxis: {
+              title: { text: "RSV positive tests" },
+            },
+            autosize: true,
+            legend: {
+              title: {
+                text: "Season starting:",
+              },
+            },
+          }}
+          config={{ responsive: true }}
+          style={{ width: "100%", height: "800px" }}
+        />
+      )}
+
+      <Typography
+        variant="caption"
+        sx={{ marginTop: "1rem" }}
+      >
+        These data come from the NREVSS surveillance system, which is comprised
+        of laboratories around the US.
+      </Typography>
+    </Box>
+  );
+};
+
+export default PositiveTests;

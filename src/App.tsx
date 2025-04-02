@@ -1,4 +1,10 @@
-import { Box, CssBaseline, ThemeProvider, Typography } from "@mui/material";
+import {
+  Box,
+  CssBaseline,
+  Link,
+  ThemeProvider,
+  Typography,
+} from "@mui/material";
 import { theme } from "./Theme";
 import ysphLogo from "./assets/images/ysphLogo.png";
 import Opioids from "./components/Opioids/Opioids";
@@ -35,9 +41,14 @@ const App = () => {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
+          margin: " 0 50px",
         }}
       >
-        <Box>
+        <Box
+          sx={{
+            paddingBottom: "30px",
+          }}
+        >
           <Typography variant="h4">Welcome to PopHive</Typography>
           <Typography>
             This platform is designed to give you timely, clear, and useful
@@ -51,25 +62,41 @@ const App = () => {
             Yale School of Public Health.
           </Typography>
         </Box>
-        <Box>
+        <Box
+          sx={{
+            paddingBottom: "30px",
+          }}
+        >
           <Typography variant="h4">Respiratory infections</Typography>
           <Typography>
             <RSV />
           </Typography>
         </Box>
-        {/* <Box>
+        <Box
+          sx={{
+            paddingBottom: "30px",
+          }}
+        >
           <Typography variant="h4">Childhood immunization rates</Typography>
           <Typography>Content coming soon</Typography>
-        </Box> */}
-        {/* <Box>
+        </Box>
+        <Box
+          sx={{
+            paddingBottom: "30px",
+          }}
+        >
           <Typography variant="h4">Youth Wellbeing</Typography>
           <Typography>Content coming soon</Typography>
-        </Box> */}
-        <Box>
+        </Box>
+        <Box
+        // sx={{
+        //   paddingBottom: "30px",
+        // }}
+        >
           <Typography variant="h4">Opioids</Typography>
           <Opioids />
         </Box>
-        {/* <Box>
+        <Box>
           <Typography variant="h4">Documentation</Typography>
           <Typography variant="h5">Notes on data sources</Typography>
           <Typography>Coming soon!</Typography>
@@ -116,7 +143,7 @@ const App = () => {
               Let us know!
             </Link>
           </Typography>
-        </Box> */}
+        </Box>
       </Box>
     </ThemeProvider>
   );

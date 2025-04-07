@@ -16,6 +16,7 @@ interface DataEntry {
   scaled_cases: number;
   epiyr: number;
   epiwk: number;
+  mmwrweek_end: string;
 }
 
 const PositiveTests = () => {
@@ -77,12 +78,12 @@ const PositiveTests = () => {
               .map((row) => row.scaled_cases),
             customdata: filteredData
               .filter((row) => row.epiyr === epiyr)
-              .map((row) => [row.epiwk]),
+              .map((row) => [row.mmwrweek_end]),
             type: "scatter",
             mode: "lines",
             name: `${epiyr}`,
             hovertemplate:
-              "epiwk: %{customdata[0]}<br>Scaled cases: %{y}<extra></extra>",
+              "epiwk: %{x}<br>Scaled cases: %{y}<br>Week ending in %{customdata}<extra></extra>",
           }))}
           layout={{
             xaxis: {

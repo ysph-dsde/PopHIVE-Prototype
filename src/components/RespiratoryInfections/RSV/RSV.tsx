@@ -3,6 +3,8 @@ import { ReactNode, SyntheticEvent, useState } from "react";
 import OverallTrends from "./OverallTrends";
 import PositiveTests from "./PositiveTests";
 import CountyMap from "./CountyMap";
+import ByAge from "./ByAge";
+import StateMap from "./StateMap";
 
 interface TabPanelProps {
   children?: ReactNode;
@@ -89,19 +91,19 @@ const RSV = () => {
         value={value}
         index={2}
       >
-        <Typography>Coming soon.</Typography>
+        <ByAge />
       </CustomTabPanel>
       <CustomTabPanel
         value={value}
         index={3}
       >
-        <Typography>Coming soon.</Typography>
+        <StateMap />
       </CustomTabPanel>
       <CustomTabPanel
         value={value}
         index={4}
       >
-        <CountyMap/>
+        {/* <CountyMap /> */}
       </CustomTabPanel>
       <CustomTabPanel
         value={value}

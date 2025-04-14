@@ -2,6 +2,7 @@ import { Box, Slider, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import Papa from "papaparse";
 import Plot from "react-plotly.js";
+import { useData } from "../../../context/DataContext";
 
 interface DataEntry {
   geography: string;
@@ -65,43 +66,64 @@ const stateAbbreviations: Record<string, string> = {
 };
 
 const StateMap = () => {
-  const [data, setData] = useState<DataEntry[]>([]);
+  // const [data, setData] = useState<DataEntry[]>([]);
+  const { datasets, loadData } = useData(); // Access data context
+  const datasetName = "RSV_ED_Visits"; // Name of the dataset we want to use
   const [selectedDate, setSelectedDate] = useState<string>(""); // Date state
   const [filteredData, setFilteredData] = useState<DataEntry[]>([]);
   const [dateRange, setDateRange] = useState<string[]>([]); // Range of dates for the slider
 
-  useEffect(() => {
-    fetch(
-      "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/rsv_flu_covid_epic_cosmos_age_state.csv",
-    )
-      .then((response) => response.text())
-      .then((csvData) => {
-        const parsedData: DataEntry[] = Papa.parse(csvData, {
-          header: true,
-          dynamicTyping: true,
-        }).data;
-        setData(parsedData);
+  // useEffect(() => {
+  //   fetch(
+  //     "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/rsv_flu_covid_epic_cosmos_age_state.csv",
+  //   )
+  //     .then((response) => response.text())
+  //     .then((csvData) => {
+  //       const parsedData: DataEntry[] = Papa.parse(csvData, {
+  //         header: true,
+  //         dynamicTyping: true,
+  //       }).data;
+  //       setData(parsedData);
 
-        const dates = [...new Set(parsedData.map((row) => row.date))].filter(
-          Boolean,
-        );
-        setDateRange(dates); // Set the dateRange without undefined values
-        setSelectedDate(dates[0]); // Default to the first date if available
-      });
-  }, []);
+  //       const dates = [...new Set(parsedData.map((row) => row.date))].filter(
+  //         Boolean,
+  //       );
+  //       setDateRange(dates); // Set the dateRange without undefined values
+  //       setSelectedDate(dates[0]); // Default to the first date if available
+  //     });
+  // }, []);
+
+  useEffect(() => {
+    const data = datasets[datasetName];
+    const dates = [...new Set(data.map((row) => row.date))].filter(Boolean);
+    setDateRange(dates);
+    setSelectedDate(dates[0]); // Default to the first date
+  }, [datasets, datasetName, loadData]);
+
+  // useEffect(() => {
+  //   if (selectedDate) {
+  //     // Filter data for age_level < 1 year old and the selected date
+  //     const filtered = data.filter(
+  //       (row) =>
+  //         row.age_level === "<1 Years" &&
+  //         row.date === selectedDate &&
+  //         row.outcome_name === "RSV",
+  //     );
+  //     setFilteredData(filtered);
+  //   }
+  // }, [selectedDate, data]);
 
   useEffect(() => {
     if (selectedDate) {
-      // Filter data for age_level < 1 year old and the selected date
-      const filtered = data.filter(
+      const filtered = datasets[datasetName]?.filter(
         (row) =>
           row.age_level === "<1 Years" &&
           row.date === selectedDate &&
           row.outcome_name === "RSV",
       );
-      setFilteredData(filtered);
+      setFilteredData(filtered || []);
     }
-  }, [selectedDate, data]);
+  }, [selectedDate, datasets, datasetName]);
 
   const trace = {
     type: "choropleth",
@@ -179,7 +201,7 @@ const StateMap = () => {
           },
         }}
         config={{ responsive: true }}
-        style={{ width: "100%", height: "600px" }}
+        style={{ width: "100%", height: "60vh" }}
       />
       <Typography variant="h6">Date</Typography>
       <Slider

@@ -6,6 +6,7 @@ import RSV from "./components/RespiratoryInfections/RSV/RSV";
 import Documentation from "./components/Documentation";
 import { useState } from "react";
 import NavBar from "./components/NavBar";
+import { DataProvider } from "./context/DataContext";
 
 const sections = [
   {
@@ -52,48 +53,50 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Box
-        sx={{
-          backgroundColor: theme.palette.primary.main,
-          padding: "1rem 2rem",
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
-      >
-        <Typography
-          variant="h2"
-          fontSize={"3rem"}
-          sx={{ color: "white", margin: "auto 0" }}
+      <DataProvider>
+        <CssBaseline />
+        <Box
+          sx={{
+            backgroundColor: theme.palette.primary.main,
+            padding: "1rem 2rem",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
         >
-          PopHIVE: Population Health Information and Visualization Exchange
-        </Typography>
-        <img
-          src={ysphLogo}
-          alt="Yale School of Public Health Logo"
-          style={{ width: "7rem", height: "7rem" }}
-        />
-      </Box>
-
-      <NavBar
-        sections={sections}
-        drawerOpen={drawerOpen}
-        handleDrawerToggle={handleDrawerToggle}
-      />
-
-      <Box sx={{ padding: "1rem 2rem", margin: " 0 50px" }}>
-        {sections.map((section, index) => (
-          <Box
-            key={index}
-            id={section.id}
-            sx={{ paddingBottom: "30px" }}
+          <Typography
+            variant="h2"
+            fontSize={"3rem"}
+            sx={{ color: "white", margin: "auto 0" }}
           >
-            <Typography variant="h4">{section.title}</Typography>
-            {section.component}
-          </Box>
-        ))}
-      </Box>
+            PopHIVE: Population Health Information and Visualization Exchange
+          </Typography>
+          <img
+            src={ysphLogo}
+            alt="Yale School of Public Health Logo"
+            style={{ width: "7rem", height: "7rem" }}
+          />
+        </Box>
+
+        <NavBar
+          sections={sections}
+          drawerOpen={drawerOpen}
+          handleDrawerToggle={handleDrawerToggle}
+        />
+
+        <Box sx={{ padding: "1rem 2rem", margin: " 0 50px" }}>
+          {sections.map((section, index) => (
+            <Box
+              key={index}
+              id={section.id}
+              sx={{ paddingBottom: "30px" }}
+            >
+              <Typography variant="h4">{section.title}</Typography>
+              {section.component}
+            </Box>
+          ))}
+        </Box>
+      </DataProvider>
     </ThemeProvider>
   );
 };

@@ -68,7 +68,7 @@ const stateAbbreviations: Record<string, string> = {
 const StateMap = () => {
   // const [data, setData] = useState<DataEntry[]>([]);
   const { datasets, loadData } = useData(); // Access data context
-  const datasetName = "RSV_ED_Visits"; // Name of the dataset we want to use
+  const datasetName = "rsv_flu_covid_epic_cosmos_age_state"; // Name of the dataset we want to use
   const [selectedDate, setSelectedDate] = useState<string>(""); // Date state
   const [filteredData, setFilteredData] = useState<DataEntry[]>([]);
   const [dateRange, setDateRange] = useState<string[]>([]); // Range of dates for the slider

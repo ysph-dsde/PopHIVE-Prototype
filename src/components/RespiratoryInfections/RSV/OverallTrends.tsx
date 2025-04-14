@@ -8,8 +8,8 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import Papa from "papaparse";
 import Plot from "react-plotly.js";
+import { useData } from "../../../context/DataContext";
 
 interface DataEntry {
   geography: string;
@@ -20,30 +20,26 @@ interface DataEntry {
 }
 
 const OverallTrends = () => {
-  const [data, setData] = useState<DataEntry[]>([]);
+  const { datasets, loadData } = useData();
+  const datasetName = "dwh_combined_plot1_long";
   const [selectedGeography, setSelectedGeography] = useState("");
   const [filteredData, setFilteredData] = useState<DataEntry[]>([]);
 
   useEffect(() => {
-    fetch("/dwh_combined_plot1_long.csv")
-      .then((response) => response.text())
-      .then((csvData) => {
-        const parsedData: DataEntry[] = Papa.parse(csvData, {
-          header: true,
-          dynamicTyping: true, // Automatically convert numeric values
-        }).data;
-        setData(parsedData);
-        setSelectedGeography("New York");
-      });
-  }, []);
+    // Set the selected geography once the data is loaded
+    setSelectedGeography("New York");
+  }, [datasets, loadData, datasetName]);
 
+  // Filter data based on selected geography
   useEffect(() => {
-    if (selectedGeography) {
+    if (selectedGeography && datasets[datasetName]) {
       setFilteredData(
-        data.filter((row) => row.geography === selectedGeography),
+        datasets[datasetName].filter(
+          (row) => row.geography === selectedGeography,
+        ),
       );
     }
-  }, [selectedGeography]);
+  }, [selectedGeography, datasets, datasetName]);
 
   const US_STATES = new Set([
     "Alabama",
@@ -98,21 +94,28 @@ const OverallTrends = () => {
     "Wyoming",
   ]);
 
-  const geographies = [...new Set(data.map((row) => row.geography))].filter(
-    (geo) => US_STATES.has(geo),
-  );
-  const outcomeLabels = [...new Set(data.map((row) => row.outcome_label1))];
+  const geographies = [
+    ...new Set(datasets[datasetName]?.map((row) => row.geography) || []),
+  ].filter((geo) => US_STATES.has(geo));
+  const outcomeLabels = [
+    ...new Set(datasets[datasetName]?.map((row) => row.outcome_label1) || []),
+  ];
 
   const maxValues: Record<string, number> = {};
+  const validData = filteredData.filter(
+    (row) => row.outcome_label1 && !isNaN(row.Outcome_value1), // Only keep valid data
+  );
   outcomeLabels.forEach((label) => {
-    const values = filteredData
-      .filter(
-        (row) => row.outcome_label1 === label && !isNaN(row.Outcome_value1),
-      )
+    // Get all the values for the current label
+    const values = validData
+      .filter((row) => row.outcome_label1 === label)
       .map((row) => row.Outcome_value1);
 
-    maxValues[label] = values.length > 0 ? Math.max(...values, 1) : 1; // Avoid zero division
+    // Calculate the maximum value for the current label
+    // Use 1 as a fallback if no valid values are found for that label
+    maxValues[label] = values.length > 0 ? Math.max(...values) : 1;
   });
+  console.log("maxValues", maxValues);
 
   const colorList = [
     "#8dd3c7",
@@ -137,11 +140,11 @@ const OverallTrends = () => {
   ];
 
   const labelMapping: Record<string, string> = {
-    "ED (N)": "ED visits (Epic cosmos)",
+    "Pct of ED visits (Epic)": "ED visits (Epic cosmos)",
     "Pct of ED visits": "ED visits (CDC/NSSP)",
     "Google Searches 1": "Google 1",
     "Google Searches 2": "Google 2",
-    "Waste Water": "Waste Water",
+    "Waste Water": "Waste Water wval (RSV)",
     "Hospitalization Rate": "Hospitalization Rate",
   };
 

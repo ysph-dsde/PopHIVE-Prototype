@@ -5,18 +5,10 @@ import Plot from "react-plotly.js";
 
 interface DataEntry {
   geography: string;
-  Level: string;
+  age_level: string;
   date: string;
-  N_ED_epic: number;
-  N_RSV_ED_epic: number;
-  N_flu_ED_epic: number;
-  N_covid_ED_epic: number;
-  pct_RSV_ED_epic: number;
-  pct_flu_ED_epic: number;
-  pct_covid_ED_epic: number;
-  ED_epic_scale_RSV: number;
-  ED_epic_scale_flu: number;
-  ED_epic_scale_covid: number;
+  outcome_name: string;
+  Outcome_value2: number;
 }
 
 const stateAbbreviations: Record<string, string> = {
@@ -79,7 +71,9 @@ const StateMap = () => {
   const [dateRange, setDateRange] = useState<string[]>([]); // Range of dates for the slider
 
   useEffect(() => {
-    fetch("/epic_ed_combo_rsv_flu_covid.csv")
+    fetch(
+      "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/rsv_flu_covid_epic_cosmos_age_state.csv",
+    )
       .then((response) => response.text())
       .then((csvData) => {
         const parsedData: DataEntry[] = Papa.parse(csvData, {
@@ -98,9 +92,12 @@ const StateMap = () => {
 
   useEffect(() => {
     if (selectedDate) {
-      // Filter data for Level < 1 year old and the selected date
+      // Filter data for age_level < 1 year old and the selected date
       const filtered = data.filter(
-        (row) => row.Level === "<1 Years" && row.date === selectedDate,
+        (row) =>
+          row.age_level === "<1 Years" &&
+          row.date === selectedDate &&
+          row.outcome_name === "RSV",
       );
       setFilteredData(filtered);
     }
@@ -109,19 +106,32 @@ const StateMap = () => {
   const trace = {
     type: "choropleth",
     locations: filteredData.map((row) => stateAbbreviations[row.geography]),
-    z: filteredData.map((row) => row.pct_RSV_ED_epic),
+    z: filteredData.map((row) => {
+      // Check for null, undefined, or any falsy value and set to 0 if found
+      if (isNaN(row.Outcome_value2)) {
+        return 0;
+      }
+      return row.Outcome_value2;
+    }),
     locationmode: "USA-states", // States for US map
     colorscale: "Viridis",
     colorbar: {
       title: { text: "RSV % in ED visits" },
     },
-    text: filteredData.map(
-      (row) =>
-        `State: ${row.geography}<br>Percent RSV: ${(
-          row.pct_RSV_ED_epic * 1
-        ).toFixed(2)}%`,
-    ),
+    text: filteredData.map((row, index) => {
+      // Use the same logic applied to 'z' for the text values
+      const zValue: Number = isNaN(row.Outcome_value2) ? 0 : row.Outcome_value2; // Get the z value for the current index
+      return `State: ${row.geography}<br>Percent RSV: ${zValue.toFixed(2)}%`;
+    }),
     hovertemplate: "%{text}<extra></extra>",
+    zmin: 0,
+    zmax: 10,
+    marker: {
+      line: {
+        color: "white", // State line color
+        width: 2, // State line width in pixels
+      },
+    },
   };
 
   const handleSliderChange = (event: Event, newValue: number | number[]) => {

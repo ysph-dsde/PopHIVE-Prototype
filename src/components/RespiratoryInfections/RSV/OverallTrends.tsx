@@ -21,7 +21,7 @@ interface DataEntry {
 
 const OverallTrends = () => {
   const { datasets, loadData } = useData();
-  const datasetName = "dwh_combined_plot1_long";
+  const datasetName = "rsv_combined_all_outcomes_state";
   const [selectedGeography, setSelectedGeography] = useState("");
   const [filteredData, setFilteredData] = useState<DataEntry[]>([]);
 

@@ -7,8 +7,8 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import Papa from "papaparse";
 import Plot from "react-plotly.js";
+import { useData } from "../../../context/DataContext";
 
 interface DataEntry {
   level: string;
@@ -20,30 +20,26 @@ interface DataEntry {
 }
 
 const PositiveTests = () => {
-  const [data, setData] = useState<DataEntry[]>([]);
+  const { datasets } = useData(); // Get the datasets from DataContext
+  const datasetName = "rsv_ts_nrevss_test_rsv"; // Dataset name in DataContext
   const [selectedRegion, setSelectedRegion] = useState<string>("");
   const [filteredData, setFilteredData] = useState<DataEntry[]>([]);
 
   useEffect(() => {
-    fetch("/rsv_ts_nrevss_test_rsv.csv")
-      .then((response) => response.text())
-      .then((csvData) => {
-        const parsedData: DataEntry[] = Papa.parse(csvData, {
-          header: true,
-          dynamicTyping: true,
-        }).data;
-        setData(parsedData);
-        setSelectedRegion("CT,ME,MA,NH,RI,VT");
-      });
-  }, []);
+    // Set default region when data is loaded
+    setSelectedRegion("CT,ME,MA,NH,RI,VT");
+  }, [datasets, datasetName]);
 
   useEffect(() => {
-    if (selectedRegion) {
-      setFilteredData(data.filter((row) => row.x === selectedRegion));
+    if (selectedRegion && datasets[datasetName]) {
+      // Filter data based on selected region
+      setFilteredData(
+        datasets[datasetName].filter((row) => row.x === selectedRegion),
+      );
     }
-  }, [selectedRegion, data]);
+  }, [selectedRegion, datasets, datasetName]);
 
-  const regions = [...new Set(data.map((row) => row.x))];
+  const regions = [...new Set(datasets[datasetName]?.map((row) => row.x))];
 
   const traceData = [...new Set(filteredData.map((row) => row.epiyr))];
 

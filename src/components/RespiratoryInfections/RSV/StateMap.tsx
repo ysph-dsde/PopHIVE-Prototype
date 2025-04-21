@@ -1,6 +1,5 @@
 import { Box, Slider, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import Papa from "papaparse";
 import Plot from "react-plotly.js";
 import { useData } from "../../../context/DataContext";
 
@@ -73,45 +72,12 @@ const StateMap = () => {
   const [filteredData, setFilteredData] = useState<DataEntry[]>([]);
   const [dateRange, setDateRange] = useState<string[]>([]); // Range of dates for the slider
 
-  // useEffect(() => {
-  //   fetch(
-  //     "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/rsv_flu_covid_epic_cosmos_age_state.csv",
-  //   )
-  //     .then((response) => response.text())
-  //     .then((csvData) => {
-  //       const parsedData: DataEntry[] = Papa.parse(csvData, {
-  //         header: true,
-  //         dynamicTyping: true,
-  //       }).data;
-  //       setData(parsedData);
-
-  //       const dates = [...new Set(parsedData.map((row) => row.date))].filter(
-  //         Boolean,
-  //       );
-  //       setDateRange(dates); // Set the dateRange without undefined values
-  //       setSelectedDate(dates[0]); // Default to the first date if available
-  //     });
-  // }, []);
-
   useEffect(() => {
     const data = datasets[datasetName];
     const dates = [...new Set(data.map((row) => row.date))].filter(Boolean);
     setDateRange(dates);
     setSelectedDate(dates[0]); // Default to the first date
   }, [datasets, datasetName, loadData]);
-
-  // useEffect(() => {
-  //   if (selectedDate) {
-  //     // Filter data for age_level < 1 year old and the selected date
-  //     const filtered = data.filter(
-  //       (row) =>
-  //         row.age_level === "<1 Years" &&
-  //         row.date === selectedDate &&
-  //         row.outcome_name === "RSV",
-  //     );
-  //     setFilteredData(filtered);
-  //   }
-  // }, [selectedDate, data]);
 
   useEffect(() => {
     if (selectedDate) {

@@ -14,9 +14,8 @@ const sections = [
     title: "Welcome to PopHive",
     component: (
       <Typography>
-        This platform is designed to give you timely, clear, and useful insights
-        into community health, so you can make informed decisions for yourself,
-        your family, and your community. We bring together data from multiple
+        This platform is designed to give its users timely, clear, and useful
+        insights into community health. We bring together data from multiple
         sources—like public health reports, electronic health records, sewage
         testing, online search trends, surveys, and predictive models—to help
         paint a fuller picture of health trends. We're just getting started and

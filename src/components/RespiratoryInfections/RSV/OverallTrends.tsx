@@ -144,7 +144,7 @@ const OverallTrends = () => {
     "Pct of ED visits": "ED visits (CDC/NSSP)",
     "Google Searches 1": "Google 1",
     "Google Searches 2": "Google 2",
-    "Waste Water": "Waste Water wval (RSV)",
+    "Waste Water wval (RSV)": "Waste Water wval (RSV)",
     "Hospitalization Rate": "Hospitalization Rate",
   };
 

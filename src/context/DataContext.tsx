@@ -12,7 +12,7 @@ const predefinedDatasets = {
   rsv_flu_covid_epic_cosmos_age_state:
     "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/rsv_flu_covid_epic_cosmos_age_state.csv",
   dwh_combined_plot1_long:
-    "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/dwh_combined_plot1_long.csv",
+    "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/rsv_combined_all_outcomes_state.csv",
   // Add other predefined dataset URLs here
 };
 

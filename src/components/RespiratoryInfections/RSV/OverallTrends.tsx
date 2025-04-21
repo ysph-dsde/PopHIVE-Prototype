@@ -115,7 +115,6 @@ const OverallTrends = () => {
     // Use 1 as a fallback if no valid values are found for that label
     maxValues[label] = values.length > 0 ? Math.max(...values) : 1;
   });
-  console.log("maxValues", maxValues);
 
   const colorList = [
     "#8dd3c7",

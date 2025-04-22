@@ -58,7 +58,7 @@ const ByAge = () => {
         ),
       );
     }
-  }, [selectedState, datasets, rsvDatasetName, hospDatasetName]);
+  }, [selectedState, datasets, rsvDatasetName, hospDatasetName, rsvData]);
 
   const US_STATES = new Set([
     "Alabama",

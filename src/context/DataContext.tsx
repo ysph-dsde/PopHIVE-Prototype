@@ -17,6 +17,10 @@ const predefinedDatasets = {
     "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/rsv_ts_nrevss_test_rsv.csv",
   rsv_hosp_age_respnet:
     "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/rsv_hosp_age_respnet.csv",
+  rsv_flu_covid_county_filled_map_nssp:
+    "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/rsv_flu_covid_county_filled_map_nssp.csv",
+  county_geojson:
+    "https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json",
 
   // Add other predefined dataset URLs here
 };

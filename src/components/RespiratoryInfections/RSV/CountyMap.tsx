@@ -1,33 +1,14 @@
 import { Box } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import Plot from "react-plotly.js";
 import { useData } from "../../../context/DataContext";
 
-const COUNTY_GEOJSON_URL =
-  "https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json";
-
-interface DataEntry {
-  fips: string;
-  state: string;
-  county: string;
-  percent_visits_rsv: number | null;
-}
-
 const CountyMap = () => {
-  const { datasets } = useData();
+  const { datasets, geoJson } = useData();
   const datasetName = "rsv_flu_covid_county_filled_map_nssp";
-  const [data, setData] = useState<DataEntry[]>([]);
-  const [geoJson, setGeoJson] = useState(null);
 
-  useEffect(() => {
-    // Fetch county GeoJSON
-    fetch(COUNTY_GEOJSON_URL)
-      .then((response) => response.json())
-      .then(setGeoJson);
-  }, []);
-
-  useEffect(() => {
-    const mappedData: DataEntry[] = datasets[datasetName].map((row) => ({
+  const data = useMemo(() => {
+    return datasets[datasetName].map((row) => ({
       fips: row.fips ? row.fips.toString().padStart(5, "0") : null,
       state: row.state,
       county: row.county,
@@ -35,12 +16,7 @@ const CountyMap = () => {
         ? parseFloat(row.percent_visits_rsv)
         : null,
     }));
-
-    setData(mappedData);
   }, [datasets, datasetName]);
-
-  console.log("Data for choropleth map:", data);
-  console.log("GeoJSON for choropleth map:", geoJson);
 
   return (
     <Box>

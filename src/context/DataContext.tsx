@@ -31,6 +31,7 @@ interface DataProviderProps {
 
 interface DataContextType {
   datasets: { [key: string]: any[] }; // key is dataset name, value is the data
+  geoJson: any | null; // Store GeoJSON data here
   loadData: (datasetName: string, url: string) => void; // Function to load datasets
 }
 
@@ -38,6 +39,7 @@ const DataContext = createContext<DataContextType | undefined>(undefined);
 
 export const DataProvider = ({ children }: DataProviderProps) => {
   const [datasets, setDatasets] = useState<{ [key: string]: any[] }>({});
+  const [geoJson, setGeoJson] = useState<any | null>(null);
 
   // Function to load data if not already present in context
   const loadData = (datasetName: string, url: string) => {
@@ -59,15 +61,27 @@ export const DataProvider = ({ children }: DataProviderProps) => {
       });
   };
 
+  const loadGeoJson = (url: string) => {
+    if (geoJson) return; // GeoJSON is already loaded, no need to fetch again
+
+    fetch(url)
+      .then((response) => response.json())
+      .then(setGeoJson);
+  };
+
   // Preload predefined datasets on component mount
   useEffect(() => {
     Object.entries(predefinedDatasets).forEach(([datasetName, url]) => {
-      loadData(datasetName, url); // Load each predefined dataset
+      if (datasetName === "county_geojson") {
+        loadGeoJson(url); // Special case for GeoJSON
+      } else {
+        loadData(datasetName, url); // Load other datasets
+      }
     });
   }, []);
 
   return (
-    <DataContext.Provider value={{ datasets, loadData }}>
+    <DataContext.Provider value={{ datasets, geoJson, loadData }}>
       {children}
     </DataContext.Provider>
   );

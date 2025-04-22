@@ -44,7 +44,7 @@ const CountyMap = () => {
                 ),
               hoverinfo: "text",
               zmin: 0,
-              zmax: 1,
+              zmax: 2,
             },
           ]}
           layout={{

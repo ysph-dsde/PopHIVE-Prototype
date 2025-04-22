@@ -1,12 +1,13 @@
 import { Box, CssBaseline, ThemeProvider, Typography } from "@mui/material";
 import { theme } from "./Theme";
 import ysphLogo from "./assets/images/ysphLogo.png";
-import Opioids from "./components/Opioids/Opioids";
-import RSV from "./components/RespiratoryInfections/RSV/RSV";
+import Opioids from "./components/InjuryAndOverdose/Opioids/Opioids";
 import Documentation from "./components/Documentation";
 import { useState } from "react";
 import NavBar from "./components/NavBar";
 import { DataProvider } from "./context/DataContext";
+import RespiratoryInfections from "./components/RespiratoryInfections/RespiratoryInfections";
+import InjuryAndOverdose from "./components/InjuryAndOverdose/InjuryAndOverdose";
 
 const sections = [
   {
@@ -27,7 +28,7 @@ const sections = [
   {
     id: "respiratory-infections",
     title: "Respiratory infections",
-    component: <RSV />,
+    component: <RespiratoryInfections />,
   },
   {
     id: "childhood-immunization",
@@ -35,11 +36,20 @@ const sections = [
     component: <Typography>Content coming soon</Typography>,
   },
   {
+    id: "chronic-disease",
+    title: "Chronic disease",
+    component: <Typography>Content coming soon</Typography>,
+  },
+  {
     id: "youth-wellbeing",
     title: "Youth Wellbeing",
     component: <Typography>Content coming soon</Typography>,
   },
-  { id: "opioids", title: "Opioids", component: <Opioids /> },
+  {
+    id: "injury-and-overdose",
+    title: "Injury and overdose",
+    component: <InjuryAndOverdose />,
+  },
   { id: "documentation", title: "Documentation", component: <Documentation /> },
 ];
 

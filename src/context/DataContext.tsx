@@ -15,6 +15,9 @@ const predefinedDatasets = {
     "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/rsv_combined_all_outcomes_state.csv",
   rsv_ts_nrevss_test_rsv:
     "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/rsv_ts_nrevss_test_rsv.csv",
+  rsv_hosp_age_respnet:
+    "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/rsv_hosp_age_respnet.csv",
+
   // Add other predefined dataset URLs here
 };
 

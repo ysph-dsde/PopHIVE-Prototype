@@ -8,23 +8,16 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import Papa from "papaparse";
 import Plot from "react-plotly.js";
+import { useData } from "../../../context/DataContext";
 
 interface DataEntry {
   geography: string;
-  Level: string;
+  age_level: string;
   date: string;
-  N_ED_epic: number;
-  N_RSV_ED_epic: number;
-  N_flu_ED_epic: number;
-  N_covid_ED_epic: number;
-  pct_RSV_ED_epic: number;
-  pct_flu_ED_epic: number;
-  pct_covid_ED_epic: number;
-  ED_epic_scale_RSV: number;
-  ED_epic_scale_flu: number;
-  ED_epic_scale_covid: number;
+  Outcome_value2: number;
+  Outcome_value3: number;
+  outcome_name: string;
 }
 
 interface HospitalData {
@@ -37,9 +30,12 @@ interface HospitalData {
 }
 
 const ByAge = () => {
-  const [data, setData] = useState<DataEntry[]>([]);
-  const [hospitalData, setHospitalData] = useState<HospitalData[]>([]);
-  const [selectedState, setSelectedState] = useState<string>("");
+  const { datasets } = useData(); // Get the datasets from DataContext
+  const rsvDatasetName = "rsv_flu_covid_epic_cosmos_age_state"; // Dataset for RSV data
+  const hospDatasetName = "rsv_hosp_age_respnet"; // Dataset for Hospital data
+
+  const [selectedState, setSelectedState] = useState<string>("New York");
+  const [rsvData, setRsvData] = useState<DataEntry[]>([]);
   const [filteredData, setFilteredData] = useState<DataEntry[]>([]);
   const [filteredHospitalData, setFilteredHospitalData] = useState<
     HospitalData[]
@@ -47,38 +43,22 @@ const ByAge = () => {
   const [useRescaledData, setUseRescaledData] = useState<boolean>(false);
 
   useEffect(() => {
-    fetch("/epic_ed_combo_rsv_flu_covid.csv")
-      .then((response) => response.text())
-      .then((csvData) => {
-        const parsedData: DataEntry[] = Papa.parse(csvData, {
-          header: true,
-          dynamicTyping: true,
-        }).data;
-        setData(parsedData);
-        setSelectedState("New York");
-      });
-  }, []);
-
-  useEffect(() => {
-    fetch("/h1.age_rsv_hosp.csv")
-      .then((response) => response.text())
-      .then((csvData) => {
-        const parsedHospitalData: HospitalData[] = Papa.parse(csvData, {
-          header: true,
-          dynamicTyping: true,
-        }).data;
-        setHospitalData(parsedHospitalData);
-      });
-  }, []);
+    setRsvData(
+      datasets[rsvDatasetName].filter((row) => row.outcome_name === "RSV"),
+    );
+  }, [datasets]);
 
   useEffect(() => {
     if (selectedState) {
-      setFilteredData(data.filter((row) => row.geography === selectedState));
+      setFilteredData(rsvData.filter((row) => row.geography === selectedState));
+
       setFilteredHospitalData(
-        hospitalData.filter((row) => row.state === selectedState),
+        datasets[hospDatasetName].filter(
+          (row: HospitalData) => row.state === selectedState,
+        ),
       );
     }
-  }, [selectedState, data, hospitalData]);
+  }, [selectedState, datasets, rsvDatasetName, hospDatasetName]);
 
   const US_STATES = new Set([
     "Alabama",
@@ -133,51 +113,65 @@ const ByAge = () => {
     "Wyoming",
   ]);
 
-  const states = [...new Set(data.map((row) => row.geography))].filter((geo) =>
-    US_STATES.has(geo),
-  );
+  const states = [
+    ...new Set(
+      datasets[rsvDatasetName]?.map((row: DataEntry) => row.geography),
+    ),
+  ].filter((geo) => US_STATES.has(geo));
 
   const toggleRescale = () => {
     setUseRescaledData(!useRescaledData);
   };
 
+  // Define the custom order for age groups
+  const ageOrder = [
+    "<1 Years",
+    "1-4 Years",
+    "5-17 Years",
+    "18-49 Years",
+    "50-64 Years",
+    "65+ Years",
+  ];
+
   // Prepare traces
-  const traces = [...new Set(filteredData.map((row) => row.Level))].map(
-    (level) => {
-      const levelData = filteredData.filter((row) => row.Level === level);
+  const traces = ageOrder
+    .filter((level) => filteredData.some((row) => row.age_level === level)) // Filter out 'total' and any missing age levels
+    .map((level) => {
+      const levelData = filteredData.filter((row) => row.age_level === level);
       const hoverTemplate = useRescaledData
         ? "Date: %{x}<br>Rescaled RSV: %{y}<br>Age: %{text} <extra></extra>"
         : "Date: %{x}<br>Percent RSV: %{y}<br>Age: %{text} <extra></extra>";
       return {
         x: levelData.map((row) => row.date),
         y: levelData.map((row) =>
-          useRescaledData ? row.ED_epic_scale_RSV : row.pct_RSV_ED_epic,
+          useRescaledData ? row.Outcome_value3 : row.Outcome_value2,
         ),
+        type: "scatter",
+        mode: "lines",
+        name: level,
+        text: levelData.map((row) => row.age_level), // Level (age) as text
+        hovertemplate: hoverTemplate,
+      };
+    });
+
+  const hospitalTraces = ageOrder
+    .filter((level) => filteredHospitalData.some((row) => row.Level === level)) // Filter out 'total' and any missing levels
+    .map((level) => {
+      const levelData = filteredHospitalData.filter(
+        (row) => row.Level === level,
+      );
+      const hoverTemplate =
+        "Date: %{x}<br>Rescaled RSV: %{y}<br>Age: %{text} <extra></extra>";
+      return {
+        x: levelData.map((row) => row.date),
+        y: levelData.map((row) => row.scale_age),
         type: "scatter",
         mode: "lines",
         name: level,
         text: levelData.map((row) => row.Level), // Level (age) as text
         hovertemplate: hoverTemplate,
       };
-    },
-  );
-
-  const hospitalTraces = [
-    ...new Set(filteredHospitalData.map((row) => row.Level)),
-  ].map((level) => {
-    const levelData = filteredHospitalData.filter((row) => row.Level === level);
-    const hoverTemplate =
-      "Date: %{x}<br>Rescaled RSV: %{y}<br>Age: %{text} <extra></extra>";
-    return {
-      x: levelData.map((row) => row.date),
-      y: levelData.map((row) => row.scale_age),
-      type: "scatter",
-      mode: "lines",
-      name: level,
-      text: levelData.map((row) => row.Level), // Level (age) as text
-      hovertemplate: hoverTemplate,
-    };
-  });
+    });
 
   return (
     <Box>

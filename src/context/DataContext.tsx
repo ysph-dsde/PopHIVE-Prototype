@@ -10,15 +10,15 @@ import Papa from "papaparse";
 // Predefined dataset URLs
 const predefinedDatasets = {
   rsv_flu_covid_epic_cosmos_age_state:
-    "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/rsv_flu_covid_epic_cosmos_age_state.csv",
+    "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/Cosmos%20ED/rsv_flu_covid_epic_cosmos_age_state.csv",
   rsv_combined_all_outcomes_state:
-    "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/rsv_combined_all_outcomes_state.csv",
+    "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/Comparisons/rsv_combined_all_outcomes_state.csv",
   rsv_ts_nrevss_test_rsv:
-    "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/rsv_ts_nrevss_test_rsv.csv",
+    "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/NREVSS/rsv_ts_nrevss_test_rsv.csv",
   rsv_hosp_age_respnet:
-    "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/rsv_hosp_age_respnet.csv",
+    "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/RESP-NET%20Programs/rsv_hosp_age_respnet.csv",
   rsv_flu_covid_county_filled_map_nssp:
-    "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/rsv_flu_covid_county_filled_map_nssp.csv",
+    "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/Cosmos%20ED/rsv_flu_covid_county_filled_map_nssp.csv",
   county_geojson:
     "https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json",
 

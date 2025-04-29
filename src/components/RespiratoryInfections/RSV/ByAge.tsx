@@ -40,7 +40,7 @@ const ByAge = () => {
   const [filteredHospitalData, setFilteredHospitalData] = useState<
     HospitalData[]
   >([]);
-  const [useRescaledData, setUseRescaledData] = useState<boolean>(false);
+  const [useRescaledData, setUseRescaledData] = useState<boolean>(true);
 
   useEffect(() => {
     setRsvData(

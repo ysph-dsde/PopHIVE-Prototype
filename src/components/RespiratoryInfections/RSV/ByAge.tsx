@@ -133,10 +133,19 @@ const ByAge = () => {
     "65+ Years",
   ];
 
+  const colorScale = [
+    "#440154",
+    "#482878",
+    "#3e4a89",
+    "#31688e",
+    "#26828e",
+    "#1f9e89",
+  ]; // Viridis colors
+
   // Prepare traces
   const traces = ageOrder
     .filter((level) => filteredData.some((row) => row.age_level === level)) // Filter out 'total' and any missing age levels
-    .map((level) => {
+    .map((level, index) => {
       const levelData = filteredData.filter((row) => row.age_level === level);
       const hoverTemplate = useRescaledData
         ? "Date: %{x}<br>Rescaled RSV: %{y}<br>Age: %{text} <extra></extra>"
@@ -151,12 +160,15 @@ const ByAge = () => {
         name: level,
         text: levelData.map((row) => row.age_level), // Level (age) as text
         hovertemplate: hoverTemplate,
+        line: {
+          color: colorScale[index], // Assigning the color from the colorScale based on index
+        },
       };
     });
 
   const hospitalTraces = ageOrder
     .filter((level) => filteredHospitalData.some((row) => row.Level === level)) // Filter out 'total' and any missing levels
-    .map((level) => {
+    .map((level, index) => {
       const levelData = filteredHospitalData.filter(
         (row) => row.Level === level,
       );
@@ -170,6 +182,9 @@ const ByAge = () => {
         name: level,
         text: levelData.map((row) => row.Level), // Level (age) as text
         hovertemplate: hoverTemplate,
+        line: {
+          color: colorScale[index], // Assigning the color from the colorScale based on index
+        },
       };
     });
 

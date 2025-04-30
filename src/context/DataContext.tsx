@@ -13,6 +13,10 @@ const predefinedDatasets = {
     "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/Cosmos%20ED/rsv_flu_covid_epic_cosmos_age_state.csv",
   rsv_combined_all_outcomes_state:
     "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/Comparisons/rsv_combined_all_outcomes_state.csv",
+  flu_combined_all_outcomes_state:
+    "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/Comparisons/flu_combined_all_outcomes_state.csv",
+  covid_combined_all_outcomes_state:
+    "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/Comparisons/covid_combined_all_outcomes_state.csv",
   rsv_ts_nrevss_test_rsv:
     "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/NREVSS/rsv_ts_nrevss_test_rsv.csv",
   rsv_hosp_age_respnet:

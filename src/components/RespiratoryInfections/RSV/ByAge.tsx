@@ -29,13 +29,18 @@ interface HospitalData {
   scale_age: number;
 }
 
-const ByAge = () => {
+interface ByAgeProps {
+  disease: "rsv" | "flu" | "covid";
+}
+
+const ByAge = ({ disease }: ByAgeProps) => {
   const { datasets } = useData(); // Get the datasets from DataContext
-  const rsvDatasetName = "rsv_flu_covid_epic_cosmos_age_state"; // Dataset for RSV data
+  // const rsvDatasetName = "rsv_flu_covid_epic_cosmos_age_state"; // Dataset for RSV data
+  const epicDatasetName = "rsv_flu_covid_epic_cosmos_age_state";
+
   const hospDatasetName = "rsv_hosp_age_respnet"; // Dataset for Hospital data
 
   const [selectedState, setSelectedState] = useState<string>("New York");
-  const [rsvData, setRsvData] = useState<DataEntry[]>([]);
   const [filteredData, setFilteredData] = useState<DataEntry[]>([]);
   const [filteredHospitalData, setFilteredHospitalData] = useState<
     HospitalData[]
@@ -43,14 +48,13 @@ const ByAge = () => {
   const [useRescaledData, setUseRescaledData] = useState<boolean>(true);
 
   useEffect(() => {
-    setRsvData(
-      datasets[rsvDatasetName].filter((row) => row.outcome_name === "RSV"),
-    );
-  }, [datasets]);
-
-  useEffect(() => {
     if (selectedState) {
-      setFilteredData(rsvData.filter((row) => row.geography === selectedState));
+      setFilteredData(
+        datasets[epicDatasetName].filter(
+          (row) =>
+            row.outcome_name === "RSV" && row.geography === selectedState,
+        ),
+      );
 
       setFilteredHospitalData(
         datasets[hospDatasetName].filter(
@@ -58,7 +62,7 @@ const ByAge = () => {
         ),
       );
     }
-  }, [selectedState, datasets, rsvDatasetName, hospDatasetName, rsvData]);
+  }, [selectedState, datasets, hospDatasetName]);
 
   const US_STATES = new Set([
     "Alabama",
@@ -115,7 +119,7 @@ const ByAge = () => {
 
   const states = [
     ...new Set(
-      datasets[rsvDatasetName]?.map((row: DataEntry) => row.geography),
+      datasets[epicDatasetName]?.map((row: DataEntry) => row.geography),
     ),
   ].filter((geo) => US_STATES.has(geo));
 
@@ -147,9 +151,9 @@ const ByAge = () => {
     .filter((level) => filteredData.some((row) => row.age_level === level)) // Filter out 'total' and any missing age levels
     .map((level, index) => {
       const levelData = filteredData.filter((row) => row.age_level === level);
-      const hoverTemplate = useRescaledData
-        ? "Date: %{x}<br>Rescaled RSV: %{y}<br>Age: %{text} <extra></extra>"
-        : "Date: %{x}<br>Percent RSV: %{y}<br>Age: %{text} <extra></extra>";
+      const hoverTemplate = `Date: %{x}<br>${
+        useRescaledData ? "Rescaled" : "Percent"
+      } ${disease.toUpperCase()}: %{y}<br>Age: %{text} <extra></extra>`;
       return {
         x: levelData.map((row) => row.date),
         y: levelData.map((row) =>
@@ -241,7 +245,7 @@ const ByAge = () => {
         />
       )}
 
-      {filteredHospitalData.length > 0 && (
+      {disease === "rsv" && filteredHospitalData.length > 0 && (
         <Plot
           data={hospitalTraces}
           layout={{

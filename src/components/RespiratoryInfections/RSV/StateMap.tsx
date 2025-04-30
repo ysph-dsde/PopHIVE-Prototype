@@ -11,6 +11,10 @@ interface DataEntry {
   Outcome_value2: number;
 }
 
+interface StateMapProps {
+  disease: "rsv" | "flu" | "covid";
+}
+
 const stateAbbreviations: Record<string, string> = {
   Alabama: "AL",
   Alaska: "AK",
@@ -64,7 +68,7 @@ const stateAbbreviations: Record<string, string> = {
   Wyoming: "WY",
 };
 
-const StateMap = () => {
+const StateMap = ({ disease }: StateMapProps) => {
   // const [data, setData] = useState<DataEntry[]>([]);
   const { datasets, loadData } = useData(); // Access data context
   const datasetName = "rsv_flu_covid_epic_cosmos_age_state"; // Name of the dataset we want to use
@@ -85,7 +89,7 @@ const StateMap = () => {
         (row) =>
           row.age_level === "<1 Years" &&
           row.date === selectedDate &&
-          row.outcome_name === "RSV",
+          row.outcome_name === disease.toUpperCase(),
       );
       setFilteredData(filtered || []);
     }
@@ -104,12 +108,14 @@ const StateMap = () => {
     locationmode: "USA-states", // States for US map
     colorscale: "Viridis",
     colorbar: {
-      title: { text: "RSV % in ED visits" },
+      title: { text: `${disease.toUpperCase()} % in ED visits` },
     },
     text: filteredData.map((row, index) => {
       // Use the same logic applied to 'z' for the text values
       const zValue: Number = isNaN(row.Outcome_value2) ? 0 : row.Outcome_value2; // Get the z value for the current index
-      return `State: ${row.geography}<br>Percent RSV: ${zValue.toFixed(2)}%`;
+      return `State: ${
+        row.geography
+      }<br>Percent ${disease.toUpperCase()}: ${zValue.toFixed(2)}%`;
     }),
     hovertemplate: "%{text}<extra></extra>",
     zmin: 0,
@@ -163,7 +169,7 @@ const StateMap = () => {
             margin: { t: 50, b: 50, l: 50, r: 50 },
           },
           title: {
-            text: `RSV ED Visit Percentage (< 1 year old) on ${selectedDate}`,
+            text: `${disease.toUpperCase()} ED Visit Percentage (< 1 year old) on ${selectedDate}`,
           },
         }}
         config={{ responsive: true }}

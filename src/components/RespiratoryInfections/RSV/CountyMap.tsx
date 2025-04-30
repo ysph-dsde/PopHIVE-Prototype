@@ -3,18 +3,28 @@ import { useMemo } from "react";
 import Plot from "react-plotly.js";
 import { useData } from "../../../context/DataContext";
 
-const CountyMap = () => {
+interface CountyMapProps {
+  disease: "rsv" | "flu" | "covid";
+}
+
+const diseaseFieldMap: Record<string, string> = {
+  rsv: "percent_visits_rsv",
+  flu: "percent_visits_flu",
+  covid: "percent_visits_covid",
+};
+
+const CountyMap = ({ disease }: CountyMapProps) => {
   const { datasets, geoJson } = useData();
   const datasetName = "rsv_flu_covid_county_filled_map_nssp";
 
   const data = useMemo(() => {
+    const fieldName = diseaseFieldMap[disease];
+
     return datasets[datasetName].map((row) => ({
       fips: row.fips ? row.fips.toString().padStart(5, "0") : null,
       state: row.state,
       county: row.county,
-      percent_visits_rsv: row.percent_visits_rsv
-        ? parseFloat(row.percent_visits_rsv)
-        : null,
+      percent: row[fieldName] ? parseFloat(row[fieldName]) : null,
     }));
   }, [datasets, datasetName]);
 
@@ -27,20 +37,22 @@ const CountyMap = () => {
               type: "choropleth",
               geojson: geoJson,
               locations: data
-                .filter((entry) => entry.percent_visits_rsv !== null)
+                .filter((entry) => entry.percent !== null)
                 .map((entry) => entry.fips),
               z: data
-                .filter((entry) => entry.percent_visits_rsv !== null)
-                .map((entry) => entry.percent_visits_rsv!),
+                .filter((entry) => entry.percent !== null)
+                .map((entry) => entry.percent!),
               colorscale: "Viridis",
               colorbar: { title: { text: "Percent" } },
               text: data
-                .filter((entry) => entry.percent_visits_rsv !== null)
+                .filter((entry) => entry.percent !== null)
                 .map(
                   (entry) =>
                     `County: ${entry.county}, ${
                       entry.state
-                    }<br>RSV Visits: ${entry.percent_visits_rsv?.toFixed(2)}%`,
+                    }<br>${disease.toUpperCase()} Visits: ${entry.percent?.toFixed(
+                      2,
+                    )}%`,
                 ),
               hoverinfo: "text",
               zmin: 0,
@@ -48,7 +60,9 @@ const CountyMap = () => {
             },
           ]}
           layout={{
-            title: { text: "RSV ED visits by jurisdiction 2025-03-22" },
+            title: {
+              text: `${disease.toUpperCase()} ED visits by jurisdiction 2025-03-22`,
+            },
             geo: {
               scope: "usa",
             },

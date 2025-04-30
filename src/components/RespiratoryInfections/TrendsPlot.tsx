@@ -2,14 +2,13 @@ import {
   Box,
   FormControl,
   InputLabel,
-  Link,
   MenuItem,
   Select,
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
-import { useData } from "../../../context/DataContext";
+import { useData } from "../../context/DataContext";
 
 interface DataEntry {
   geography: string;
@@ -19,16 +18,27 @@ interface DataEntry {
   source: string;
 }
 
-const OverallTrends = () => {
-  const { datasets, loadData } = useData();
-  const datasetName = "rsv_combined_all_outcomes_state";
+interface TrendPlotProps {
+  datasetName: string;
+  labelMapping: Record<string, string>;
+  yAxisTitle: string;
+  description: React.ReactNode;
+}
+
+export const TrendsPlot = ({
+  datasetName,
+  labelMapping,
+  yAxisTitle,
+  description,
+}: TrendPlotProps) => {
+  const { datasets } = useData();
   const [selectedGeography, setSelectedGeography] = useState("");
   const [filteredData, setFilteredData] = useState<DataEntry[]>([]);
 
   useEffect(() => {
     // Set the selected geography once the data is loaded
     setSelectedGeography("New York");
-  }, [datasets, loadData, datasetName]);
+  }, [datasets, datasetName]);
 
   // Filter data based on selected geography
   useEffect(() => {
@@ -138,15 +148,6 @@ const OverallTrends = () => {
     "longdashdot",
   ];
 
-  const labelMapping: Record<string, string> = {
-    "Pct of ED visits (Epic)": "ED visits (Epic cosmos)",
-    "Pct of ED visits": "ED visits (CDC/NSSP)",
-    "Google Searches 1": "Google 1",
-    "Google Searches 2": "Google 2",
-    "Waste Water wval (RSV)": "Waste Water wval (RSV)",
-    "Hospitalization Rate": "Hospitalization Rate",
-  };
-
   return (
     <Box>
       <FormControl fullWidth>
@@ -203,7 +204,6 @@ const OverallTrends = () => {
               };
             })}
           layout={{
-            title: selectedGeography,
             xaxis: {
               title: {
                 text: "Date",
@@ -211,7 +211,7 @@ const OverallTrends = () => {
             },
             yaxis: {
               title: {
-                text: "RSV activity (sacled to 100)",
+                text: yAxisTitle,
               },
             },
             autosize: true,
@@ -224,7 +224,7 @@ const OverallTrends = () => {
         variant="caption"
         sx={{ marginTop: "1rem" }}
       >
-        Viral levels in the community can be measured in different ways, which
+        {/* Viral levels in the community can be measured in different ways, which
         is important because no measure is perfect. By triangulating data from
         sources like emergency department (ED) visits, hospitalizations, and
         wastewater surveillance, we can get a more complete picture of how and
@@ -236,10 +236,11 @@ const OverallTrends = () => {
         . The Google Trends data are obtained from the Google Health Trends API
         (volume of searches for ‘rsv’, subtracting volume of searches for
         category “respiratory syncytial virus vaccine” (Knowledge graph:
-        /g/11j30ybfx6) ).
+        /g/11j30ybfx6) ). */}
+        {description}
       </Typography>
     </Box>
   );
 };
 
-export default OverallTrends;
+// export TrendsPlot;

@@ -224,23 +224,8 @@ export const TrendsPlot = ({
         variant="caption"
         sx={{ marginTop: "1rem" }}
       >
-        {/* Viral levels in the community can be measured in different ways, which
-        is important because no measure is perfect. By triangulating data from
-        sources like emergency department (ED) visits, hospitalizations, and
-        wastewater surveillance, we can get a more complete picture of how and
-        when a virus is spreading, which can help you make better-informed
-        decisions. Epic data come from the{" "}
-        <Link href="https://www.epicresearch.org/about-us">
-          Epic Cosmos platform
-        </Link>
-        . The Google Trends data are obtained from the Google Health Trends API
-        (volume of searches for ‘rsv’, subtracting volume of searches for
-        category “respiratory syncytial virus vaccine” (Knowledge graph:
-        /g/11j30ybfx6) ). */}
         {description}
       </Typography>
     </Box>
   );
 };
-
-// export TrendsPlot;

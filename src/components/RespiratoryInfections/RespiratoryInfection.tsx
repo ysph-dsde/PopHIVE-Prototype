@@ -1,10 +1,10 @@
-import { OverallTrends } from "../OverallTrends";
-import PositiveTests from "./PositiveTests";
+import { OverallTrends } from "./OverallTrends";
+import PositiveTests from "./RSV/PositiveTests";
 import ByAge from "./ByAge";
 import StateMap from "./StateMap";
 import CountyMap from "./CountyMap";
 import { Typography } from "@mui/material";
-import { CustomTabs } from "../../shared/CustomTabs";
+import { CustomTabs } from "../shared/CustomTabs";
 
 interface RespiratoryInfectionProps {
   disease: "rsv" | "flu" | "covid"; // Extend if needed

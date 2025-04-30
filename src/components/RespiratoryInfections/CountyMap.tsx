@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { useMemo } from "react";
 import Plot from "react-plotly.js";
-import { useData } from "../../../context/DataContext";
+import { useData } from "../../context/DataContext";
 
 interface CountyMapProps {
   disease: "rsv" | "flu" | "covid";

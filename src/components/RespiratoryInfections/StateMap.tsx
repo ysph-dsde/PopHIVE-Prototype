@@ -1,7 +1,7 @@
 import { Box, Slider, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
-import { useData } from "../../../context/DataContext";
+import { useData } from "../../context/DataContext";
 
 interface DataEntry {
   geography: string;
@@ -69,7 +69,6 @@ const stateAbbreviations: Record<string, string> = {
 };
 
 const StateMap = ({ disease }: StateMapProps) => {
-  // const [data, setData] = useState<DataEntry[]>([]);
   const { datasets, loadData } = useData(); // Access data context
   const datasetName = "rsv_flu_covid_epic_cosmos_age_state"; // Name of the dataset we want to use
   const [selectedDate, setSelectedDate] = useState<string>(""); // Date state

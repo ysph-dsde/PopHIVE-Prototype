@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
-import { useData } from "../../../context/DataContext";
+import { useData } from "../../context/DataContext";
 
 interface DataEntry {
   geography: string;
@@ -35,7 +35,6 @@ interface ByAgeProps {
 
 const ByAge = ({ disease }: ByAgeProps) => {
   const { datasets } = useData(); // Get the datasets from DataContext
-  // const rsvDatasetName = "rsv_flu_covid_epic_cosmos_age_state"; // Dataset for RSV data
   const epicDatasetName = "rsv_flu_covid_epic_cosmos_age_state";
 
   const hospDatasetName = "rsv_hosp_age_respnet"; // Dataset for Hospital data

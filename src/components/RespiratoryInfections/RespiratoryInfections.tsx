@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import { CustomTabs } from "../shared/CustomTabs";
-import { RespiratoryInfection } from "./RSV/RespiratoryInfection";
+import { RespiratoryInfection } from "./RespiratoryInfection";
 
 const RespiratoryInfections = () => {
   const respiratoryInfectionsTabs = [
@@ -10,12 +10,10 @@ const RespiratoryInfections = () => {
     },
     {
       label: "Influenza (Seasonal Flu)",
-      // content: <Typography>Flu coming soon</Typography>,
       content: <RespiratoryInfection disease="flu" />,
     },
     {
       label: "Covid-19",
-      // content: <Typography>Covid coming soon</Typography>,
       content: <RespiratoryInfection disease="covid" />,
     },
     {

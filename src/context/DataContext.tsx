@@ -87,6 +87,9 @@ export const DataProvider = ({ children }: DataProviderProps) => {
 
   const preloadList: (keyof typeof predefinedDatasets)[] = [
     "rsv_combined_all_outcomes_state",
+    "vax_age_nis",
+    "diabetes_obesity",
+    "wisqars_self_harm",
   ];
 
   useEffect(() => {

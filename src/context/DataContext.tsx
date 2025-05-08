@@ -25,15 +25,16 @@ const predefinedDatasets = {
     "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/Cosmos%20ED/rsv_flu_covid_county_filled_map_nssp.csv",
   county_geojson:
     "https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json",
-  // vax_age_nis:
-  //   "https://github.com/ysph-dsde/PopHIVE_DataHub/raw/refs/heads/main/Data/Plot%20Files/vax_age_nis.parquet",
   wisqars_self_harm:
     "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/wisqars/wisqars_self_harm.csv",
   OD_search_state_recent12m:
     "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/fb87332d397204e7d7f8472b0cdaf0c9788f34a7/Data/Pulled%20Data/Google%20Overdose/OD_search_state_recent12m.csv",
-  // df_opioid:
-  //   "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Pulled%20Data/opioids/Harmonized%20Opioid%20Overdose%20Datasets_01.23.2025.csv",
-
+  opioid_time_series:
+    "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/Opioid%20OD/opioid_time_series.csv",
+  opioid_ahrq_map:
+    "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/Opioid%20OD/opioid_ahrq_map.csv",
+  opioid_wonder_map:
+    "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/Opioid%20OD/opioid_wonder_map.csv",
   // Add other predefined dataset URLs here
 };
 

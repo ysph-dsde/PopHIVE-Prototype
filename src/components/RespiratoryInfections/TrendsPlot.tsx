@@ -3,7 +3,6 @@ import {
   CircularProgress,
   FormControl,
   InputLabel,
-  LinearProgress,
   MenuItem,
   Select,
   Typography,

@@ -24,11 +24,11 @@ export const DrugOverdoses = () => {
       content: (
         <>
           <ChoroplethMap
-            csvPath="/opioid_ahrq_map.csv"
+            datasetName="opioid_ahrq_map"
             title="AHRQ"
           />
           <ChoroplethMap
-            csvPath="/opioid_wonder_map.csv"
+            datasetName="opioid_wonder_map"
             title="CDC Wonder"
           />
         </>

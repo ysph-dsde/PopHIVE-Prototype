@@ -2,6 +2,7 @@ import { Box, CircularProgress, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import Papa from "papaparse";
 import Plot from "react-plotly.js";
+import { useData } from "../../../context/DataContext";
 
 const stateAbbreviations: { [key: string]: string } = {
   Alabama: "AL",
@@ -69,39 +70,37 @@ interface DataEntry {
 }
 
 interface ChoroplethMapProps {
-  csvPath: string;
+  datasetName: string;
   title: string;
 }
 
-const ChoroplethMap = ({ csvPath, title }: ChoroplethMapProps) => {
+const ChoroplethMap = ({ datasetName, title }: ChoroplethMapProps) => {
+  const { datasets } = useData(); // Get the datasets from DataContext
   const [data, setData] = useState<DataEntry[]>([]);
 
   useEffect(() => {
-    fetch(csvPath) // Use relative path
-      .then((response) => response.text())
-      .then((csvData) => {
-        const parsedData = Papa.parse(csvData, { header: true }).data;
+    if (!datasets[datasetName]) return; // Ensure dataset is loaded
 
-        const stateDataMap: Record<string, number> = {};
+    const stateDataMap: Record<string, number> = {};
 
-        parsedData.forEach((row: any) => {
-          const stateAbbreviation = stateAbbreviations[row.state]; // Convert full name to abbreviation
-          const count = parseInt(row.count, 10);
+    datasets[datasetName].forEach((row: any) => {
+      const stateAbbreviation = stateAbbreviations[row.state]; // Convert full name to abbreviation
+      const count = parseInt(row.count, 10);
 
-          if (stateAbbreviation && !isNaN(count)) {
-            stateDataMap[stateAbbreviation] = count;
-          }
-        });
+      if (stateAbbreviation && !isNaN(count)) {
+        stateDataMap[stateAbbreviation] = count;
+      }
+    });
 
-        const mappedData = US_STATES.map((abv) => ({
-          state: abbreviationToState[abv],
-          abv: abv,
-          count: stateDataMap[abv] ?? null, // Use null for missing values
-        }));
+    const mappedData = US_STATES.map((abv) => ({
+      state: abbreviationToState[abv],
+      abv: abv,
+      count: stateDataMap[abv] ?? null, // Use null for missing values
+    }));
 
-        setData(mappedData);
-      });
-  }, []);
+    setData(mappedData);
+    // });
+  }, [datasets, datasetName]);
 
   if (data.length === 0) {
     return (

@@ -1,4 +1,10 @@
-import { Box, CssBaseline, ThemeProvider, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CssBaseline,
+  ThemeProvider,
+  Typography,
+} from "@mui/material";
 import { theme } from "./Theme";
 import ysphLogo from "./assets/images/ysphLogo.png";
 import Documentation from "./components/Documentation";
@@ -41,11 +47,11 @@ const sections = [
     title: "Chronic disease",
     component: <ChronicDiseases />,
   },
-  // {
-  //   id: "youth-wellbeing",
-  //   title: "Youth Wellbeing",
-  //   component: <Typography>Content coming soon</Typography>,
-  // },
+  {
+    id: "youth-wellbeing",
+    title: "Youth Wellbeing",
+    component: <Typography>Content coming soon</Typography>,
+  },
   {
     id: "injury-and-overdose",
     title: "Injury and overdose",
@@ -65,6 +71,34 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <DataProvider>
         <CssBaseline />
+        {/* <Box
+          sx={{
+            backgroundColor: theme.palette.primary.main,
+            height: "100vh",
+            width: "100vw",
+            padding: 3,
+          }}
+        >
+          <Typography
+            variant="h1"
+            sx={{ color: "white", margin: "auto 0" }}
+          >
+            Welcome to Pophive
+          </Typography>
+          <Typography
+            variant="h4"
+            sx={{ color: "white", margin: "auto 0" }}
+          >
+            Popular Health Information and Visualization Exchange
+          </Typography>
+          <br />
+          <Button
+            variant="contained"
+            color="secondary"
+          >
+            See the data
+          </Button>
+        </Box> */}
         <Box
           sx={{
             backgroundColor: theme.palette.primary.main,

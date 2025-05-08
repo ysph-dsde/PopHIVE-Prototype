@@ -14,7 +14,6 @@ export const ChronicDisease = ({ disease }: ChronicDiseaseProps) => {
       label: `Map of ${disease} prevalence (all ages)`,
       content: <MapOfDiseasePrevalence disease={disease} />,
     },
-
     {
       label: `${disease} prevalence by state and age`,
       content: <DiseasePrevalence disease={disease} />,

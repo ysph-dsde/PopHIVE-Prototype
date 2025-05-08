@@ -1,9 +1,7 @@
 import {
+  Autocomplete,
   Box,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
+  TextField,
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -103,23 +101,22 @@ export const TrendsPlot = ({
 
   return (
     <Box>
-      <FormControl fullWidth>
-        <InputLabel>State</InputLabel>
-        <Select
-          value={selectedGeography}
-          onChange={(e) => setSelectedGeography(e.target.value)}
-          label="Age"
-        >
-          {geographies.map((geo) => (
-            <MenuItem
-              key={geo}
-              value={geo}
-            >
-              {geo}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      <Autocomplete
+        options={geographies}
+        value={selectedGeography}
+        onChange={(_, value) =>
+          setSelectedGeography(value ?? selectedGeography)
+        }
+        isOptionEqualToValue={(option, value) => option === value}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="State"
+          />
+        )}
+        sx={{ mb: 2 }}
+      />
+
       {selectedGeography && (
         <Plot
           data={outcomeLabels

@@ -1,10 +1,8 @@
 import {
+  Autocomplete,
   Box,
   Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
+  TextField,
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -147,23 +145,19 @@ export const ByAge = ({ disease }: ByAgeProps) => {
 
   return (
     <Box>
-      <FormControl fullWidth>
-        <InputLabel>State</InputLabel>
-        <Select
-          value={selectedState}
-          onChange={(e) => setSelectedState(e.target.value)}
-          label="State"
-        >
-          {states.map((state) => (
-            <MenuItem
-              key={state}
-              value={state}
-            >
-              {state}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      <Autocomplete
+        options={states}
+        value={selectedState}
+        onChange={(_, value) => setSelectedState(value ?? selectedState)}
+        isOptionEqualToValue={(option, value) => option === value}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="State"
+          />
+        )}
+        sx={{ mb: 2 }}
+      />
 
       <Button
         variant="contained"

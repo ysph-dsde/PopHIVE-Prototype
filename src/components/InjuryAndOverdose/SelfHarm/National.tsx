@@ -150,7 +150,7 @@ export const NationalSelfHarm = () => {
     <Plot
       data={traces}
       layout={layout}
-      style={{ width: "90%", height: "700px" }}
+      style={{ width: "85%", height: "700px" }}
     />
   );
 };

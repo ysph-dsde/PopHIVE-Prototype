@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
-import Papa from "papaparse";
 import {
   Box,
   CircularProgress,
@@ -10,6 +9,7 @@ import {
   Select,
   Typography,
 } from "@mui/material";
+import { useData } from "../../context/DataContext";
 
 const stateList = [
   "Alabama",
@@ -66,32 +66,22 @@ const stateList = [
 ];
 
 export const UptakeByState = () => {
-  const [data, setData] = useState<any[]>([]);
   const [filteredData, setFilteredData] = useState<any[]>([]);
   const [selectedAge, setSelectedAge] = useState("24 Months");
+  const { datasets } = useData(); // Get the datasets from DataContext
+  const datasetName = "vax_age_nis";
 
   useEffect(() => {
-    fetch("/vax_age_nis.csv")
-      .then((res) => res.text())
-      .then((csv) => {
-        const parsed = Papa.parse(csv, {
-          header: true,
-          dynamicTyping: true,
-        });
-        setData(parsed.data);
-      });
-  }, []);
-
-  useEffect(() => {
-    const filtered = data.filter(
-      (d) =>
+    if (!datasets[datasetName]) return;
+    const filtered = datasets[datasetName].filter(
+      (d: any) =>
         d.age === selectedAge &&
         d.birth_year === 2021 &&
         stateList.includes(d.Geography) &&
         d.Outcome_value1 != null,
     );
     setFilteredData(filtered);
-  }, [data, selectedAge]);
+  }, [datasets, datasetName, selectedAge]);
 
   const yLabels = [
     ...new Set(

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
-import Papa from "papaparse";
 import {
   Box,
   CircularProgress,
@@ -120,43 +119,34 @@ export const UptakeByDimension = ({ dimension }: UptakeByDimensionProps) => {
   const [data, setData] = useState<DataEntry[]>([]);
   const [selectedVaccine, setSelectedVaccine] = useState("PCV");
   const [filteredData, setFilteredData] = useState<DataEntry[]>([]);
-  // const { datasets } = useData(); // Get the datasets from DataContext
-  // const datasetName = "vax_age_nis";
+  const { datasets } = useData(); // Get the datasets from DataContext
+  const datasetName = "vax_age_nis";
 
   useEffect(() => {
-    // console.log("read data", datasets[datasetName]);
+    if (!datasets[datasetName]) return;
 
-    fetch("/vax_age_nis.csv")
-      .then((res) => res.text())
-      .then((csv) => {
-        const parsed = Papa.parse(csv, {
-          header: true,
-          dynamicTyping: true,
-        });
+    const cleaned = (datasets[datasetName] as DataEntry[])
+      .filter(
+        (d: any) =>
+          d.birth_year === "2016-2019" &&
+          d.dim1 === dimensionKeyMap[dimension] &&
+          stateList.includes(d.Geography) &&
+          d.Vaccine &&
+          d.Outcome_value1 != null &&
+          validVaccineDosePairs.some(
+            (pair) =>
+              pair.Vaccine === d.Vaccine &&
+              (!pair.Dose || pair.Dose === d.Dose),
+          ),
+      )
+      .map((d: any) => ({
+        ...d,
+        Dimension: dimensionLabels[dimension][d.age],
+      }));
 
-        const cleaned = (parsed.data as DataEntry[])
-          .filter(
-            (d: any) =>
-              d.birth_year === "2016-2019" &&
-              d.dim1 === dimensionKeyMap[dimension] &&
-              stateList.includes(d.Geography) &&
-              d.Vaccine &&
-              d.Outcome_value1 != null &&
-              validVaccineDosePairs.some(
-                (pair) =>
-                  pair.Vaccine === d.Vaccine &&
-                  (!pair.Dose || pair.Dose === d.Dose),
-              ),
-          )
-          .map((d: any) => ({
-            ...d,
-            Dimension: dimensionLabels[dimension][d.age],
-          }));
-
-        setData(cleaned);
-        setSelectedVaccine("PCV");
-      });
-  }, []);
+    setData(cleaned);
+    setSelectedVaccine("PCV");
+  }, [datasets, datasetName]);
 
   useEffect(() => {
     setFilteredData(data.filter((d) => d.Vaccine === selectedVaccine));

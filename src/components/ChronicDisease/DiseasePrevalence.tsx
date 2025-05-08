@@ -1,4 +1,10 @@
-import { Box, Autocomplete, TextField } from "@mui/material";
+import {
+  Box,
+  Autocomplete,
+  TextField,
+  CircularProgress,
+  Typography,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 import { useData } from "../../context/DataContext";
@@ -86,6 +92,15 @@ export const DiseasePrevalence = ({ disease }: DiseasePrevalenceProps) => {
       marker: { size: 10 },
     };
   });
+
+  if (data.length === 0) {
+    return (
+      <>
+        <CircularProgress />
+        <Typography>Loading data...</Typography>
+      </>
+    );
+  }
 
   return (
     <Box>

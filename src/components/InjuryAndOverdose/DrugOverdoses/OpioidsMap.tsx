@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import Papa from "papaparse";
 import Plot from "react-plotly.js";
@@ -102,6 +102,15 @@ const ChoroplethMap = ({ csvPath, title }: ChoroplethMapProps) => {
         setData(mappedData);
       });
   }, []);
+
+  if (data.length === 0) {
+    return (
+      <>
+        <CircularProgress />
+        <Typography>Loading data...</Typography>
+      </>
+    );
+  }
 
   return (
     <Box>

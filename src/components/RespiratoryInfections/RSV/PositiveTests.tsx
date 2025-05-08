@@ -1,5 +1,6 @@
 import {
   Box,
+  CircularProgress,
   FormControl,
   InputLabel,
   MenuItem,
@@ -26,11 +27,15 @@ const PositiveTests = () => {
   const [filteredData, setFilteredData] = useState<DataEntry[]>([]);
 
   useEffect(() => {
+    if (!datasets[datasetName]) return;
+
     // Set default region when data is loaded
     setSelectedRegion("CT,ME,MA,NH,RI,VT");
   }, [datasets, datasetName]);
 
   useEffect(() => {
+    if (!datasets[datasetName]) return;
+
     if (selectedRegion && datasets[datasetName]) {
       // Filter data based on selected region
       setFilteredData(
@@ -43,6 +48,15 @@ const PositiveTests = () => {
 
   const traceData = [...new Set(filteredData.map((row) => row.epiyr))];
 
+  if (!datasets[datasetName]) {
+    return (
+      <>
+        <CircularProgress />
+        <Typography>Loading data...</Typography>
+      </>
+    );
+  }
+
   return (
     <Box>
       <FormControl fullWidth>
@@ -52,9 +66,9 @@ const PositiveTests = () => {
           onChange={(e) => setSelectedRegion(e.target.value)}
           label="Region"
         >
-          {regions.map((region) => (
+          {regions.map((region, index) => (
             <MenuItem
-              key={region}
+              key={index}
               value={region}
             >
               {region}

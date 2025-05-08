@@ -3,12 +3,14 @@ import Plot from "react-plotly.js";
 import Papa from "papaparse";
 import {
   Box,
+  CircularProgress,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
   Typography,
 } from "@mui/material";
+import { useData } from "../../context/DataContext";
 
 interface DataEntry {
   Vaccine: string;
@@ -118,8 +120,12 @@ export const UptakeByDimension = ({ dimension }: UptakeByDimensionProps) => {
   const [data, setData] = useState<DataEntry[]>([]);
   const [selectedVaccine, setSelectedVaccine] = useState("PCV");
   const [filteredData, setFilteredData] = useState<DataEntry[]>([]);
+  // const { datasets } = useData(); // Get the datasets from DataContext
+  // const datasetName = "vax_age_nis";
 
   useEffect(() => {
+    // console.log("read data", datasets[datasetName]);
+
     fetch("/vax_age_nis.csv")
       .then((res) => res.text())
       .then((csv) => {
@@ -189,6 +195,15 @@ export const UptakeByDimension = ({ dimension }: UptakeByDimensionProps) => {
   const vaccineOptions = [
     ...new Set(data.map((d) => d.Vaccine).filter((v) => v)),
   ];
+
+  if (filteredData.length === 0) {
+    return (
+      <>
+        <CircularProgress />
+        <Typography>Loading data...</Typography>
+      </>
+    );
+  }
 
   return (
     <Box>

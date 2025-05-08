@@ -1,7 +1,15 @@
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 import Papa from "papaparse";
-import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from "@mui/material";
 
 const stateList = [
   "Alabama",
@@ -59,7 +67,7 @@ const stateList = [
 
 export const UptakeByState = () => {
   const [data, setData] = useState<any[]>([]);
-  const [filtered, setFilteredData] = useState<any[]>([]);
+  const [filteredData, setFilteredData] = useState<any[]>([]);
   const [selectedAge, setSelectedAge] = useState("24 Months");
 
   useEffect(() => {
@@ -87,7 +95,7 @@ export const UptakeByState = () => {
 
   const yLabels = [
     ...new Set(
-      filtered.map((d) => `${d.Vaccine} ${d.Dose ? d.Dose : ""}`.trim()),
+      filteredData.map((d) => `${d.Vaccine} ${d.Dose ? d.Dose : ""}`.trim()),
     ),
   ].sort();
 
@@ -99,8 +107,8 @@ export const UptakeByState = () => {
 
   const traces = [
     {
-      x: filtered.map((d) => d.Outcome_value1),
-      y: filtered.map((d) => {
+      x: filteredData.map((d) => d.Outcome_value1),
+      y: filteredData.map((d) => {
         const base = `${d.Vaccine} ${d.Dose ? d.Dose : ""}`.trim();
         const jitter = (Math.random() - 0.5) * jitterAmount;
         return labelIndexMap[base] + jitter;
@@ -108,14 +116,14 @@ export const UptakeByState = () => {
       mode: "markers",
       type: "scatter",
       marker: {
-        color: filtered.map((d) => d.Outcome_value1),
+        color: filteredData.map((d) => d.Outcome_value1),
         colorscale: "Viridis",
         reversescale: true,
         showscale: false,
         size: 8,
         opacity: 0.7,
       },
-      text: filtered.map(
+      text: filteredData.map(
         (d) =>
           `${d.Geography}<br>${d.Vaccine} ${d.Dose ? d.Dose : ""}<br>Age: ${
             d.age
@@ -124,6 +132,15 @@ export const UptakeByState = () => {
       hovertemplate: "%{text}<extra></extra>",
     },
   ];
+
+  if (filteredData.length === 0) {
+    return (
+      <>
+        <CircularProgress />
+        <Typography>Loading data...</Typography>
+      </>
+    );
+  }
 
   return (
     <Box>

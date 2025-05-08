@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
-import Papa from "papaparse";
 import { useData } from "../../../context/DataContext";
+import { CircularProgress, Typography } from "@mui/material";
 
 interface DataEntry {
   age_level: string;
@@ -17,21 +17,13 @@ export const NationalSelfHarm = () => {
   const [data, setData] = useState<DataEntry[]>([]);
 
   useEffect(() => {
-    fetch("/wisqars_self_harm.csv") // Adjust if needed
-      .then((res) => res.text())
-      .then((csvText) => {
-        const parsed = Papa.parse(csvText, {
-          header: true,
-          dynamicTyping: true,
-        });
-        const filtered = parsed.data.filter((d: any) =>
-          ["10 to 14", "15 to 19", "20 to 24", "25 to 29"].includes(
-            d.age_level,
-          ),
-        );
-        setData(filtered);
-      });
-  }, []);
+    if (!datasets[datasetName]) return;
+    const rawData = datasets[datasetName];
+    const filtered = rawData.filter((d: any) =>
+      ["10 to 14", "15 to 19", "20 to 24", "25 to 29"].includes(d.age_level),
+    );
+    setData(filtered);
+  }, [datasets, datasetName]);
 
   const ageLevels = ["10 to 14", "15 to 19", "20 to 24", "25 to 29"];
 
@@ -151,6 +143,15 @@ export const NationalSelfHarm = () => {
       range: [0, 900],
     },
   };
+
+  if (!datasets[datasetName]) {
+    return (
+      <>
+        <CircularProgress />
+        <Typography>Loading data...</Typography>
+      </>
+    );
+  }
 
   return (
     <Plot

@@ -1,7 +1,14 @@
-import { Autocomplete, Box, TextField } from "@mui/material";
+import {
+  Autocomplete,
+  Box,
+  CircularProgress,
+  TextField,
+  Typography,
+} from "@mui/material";
 import Plot from "react-plotly.js";
 import Papa from "papaparse";
 import { useEffect, useState } from "react";
+import { useData } from "../../../context/DataContext";
 
 interface DataEntry {
   date: string;
@@ -15,48 +22,49 @@ interface VolumeEntry {
 }
 
 export const NaloxoneSearch = () => {
+  const { datasets } = useData(); // Get the datasets from DataContext
+  const datasetName = "OD_search_state_recent12m";
   const [data, setData] = useState<Record<string, VolumeEntry[]>>({});
   const [selectedState, setSelectedState] = useState<string>("New York");
 
   useEffect(() => {
-    fetch("/OD_search_state_recent12m.csv")
-      .then((res) => res.text())
-      .then((csv) => {
-        const parsed = Papa.parse(csv, {
-          header: true,
-          dynamicTyping: true,
-        }).data;
+    // Filter and process the data
+    const filtered = datasets[datasetName].filter(
+      (row: any) => row.date >= "2015-01-01" && row.naloxone_search_12m != null,
+    );
 
-        // Filter and process the data
-        const filtered = parsed.filter(
-          (row: any) =>
-            row.date >= "2015-01-01" && row.naloxone_search_12m != null,
-        );
-
-        const grouped: Record<string, VolumeEntry[]> = {};
-        filtered.forEach((row: any) => {
-          if (!grouped[row.state]) grouped[row.state] = [];
-          grouped[row.state].push({
-            date: row.date,
-            volume: row.naloxone_search_12m,
-          });
-        });
-
-        // Normalize volume to 0-100 scale per state
-        for (const state in grouped) {
-          const max = Math.max(...grouped[state].map((d) => d.volume));
-          grouped[state] = grouped[state].map((d) => ({
-            date: d.date,
-            volume: Math.round((d.volume / max) * 100),
-          }));
-        }
-
-        setData(grouped);
+    const grouped: Record<string, VolumeEntry[]> = {};
+    filtered.forEach((row: any) => {
+      if (!grouped[row.state]) grouped[row.state] = [];
+      grouped[row.state].push({
+        date: row.date,
+        volume: row.naloxone_search_12m,
       });
+    });
+
+    // Normalize volume to 0-100 scale per state
+    for (const state in grouped) {
+      const max = Math.max(...grouped[state].map((d) => d.volume));
+      grouped[state] = grouped[state].map((d) => ({
+        date: d.date,
+        volume: Math.round((d.volume / max) * 100),
+      }));
+    }
+
+    setData(grouped);
   }, []);
 
   const states = Object.keys(data).sort();
   const plotData = data[selectedState] || [];
+
+  if (!datasets[datasetName]) {
+    return (
+      <>
+        <CircularProgress />
+        <Typography>Loading data...</Typography>
+      </>
+    );
+  }
 
   return (
     <Box>

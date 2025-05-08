@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import Papa from "papaparse";
 import Plot from "react-plotly.js";
@@ -70,6 +70,15 @@ const OpioidOverdosePlot = () => {
   }, []); // Run once on mount
 
   const filteredTickVals = timePoints.filter((_, i) => i % 4 === 0);
+
+  if (data === null) {
+    return (
+      <>
+        <CircularProgress />
+        <Typography>Loading data...</Typography>
+      </>
+    );
+  }
 
   return (
     <Box>

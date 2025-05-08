@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   FormControl,
   InputLabel,
   MenuItem,
@@ -47,6 +48,7 @@ const ByAge = ({ disease }: ByAgeProps) => {
   const [useRescaledData, setUseRescaledData] = useState<boolean>(true);
 
   useEffect(() => {
+    if (!datasets[hospDatasetName] && !datasets[epicDatasetName]) return;
     if (selectedState) {
       setFilteredData(
         datasets[epicDatasetName].filter(
@@ -190,6 +192,15 @@ const ByAge = ({ disease }: ByAgeProps) => {
         },
       };
     });
+
+  if (!datasets[epicDatasetName] && !datasets[hospDatasetName]) {
+    return (
+      <>
+        <CircularProgress />
+        <Typography>Loading data...</Typography>
+      </>
+    );
+  }
 
   return (
     <Box>

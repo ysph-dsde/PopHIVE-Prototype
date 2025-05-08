@@ -28,7 +28,11 @@ const predefinedDatasets = {
   // vax_age_nis:
   //   "https://github.com/ysph-dsde/PopHIVE_DataHub/raw/refs/heads/main/Data/Plot%20Files/vax_age_nis.parquet",
   wisqars_self_harm:
-    "https://github.com/ysph-dsde/PopHIVE_DataHub/raw/refs/heads/main/Data/Plot%20Files/wisqars/wisqars_self_harm.csv",
+    "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/wisqars/wisqars_self_harm.csv",
+  OD_search_state_recent12m:
+    "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/fb87332d397204e7d7f8472b0cdaf0c9788f34a7/Data/Pulled%20Data/Google%20Overdose/OD_search_state_recent12m.csv",
+  // df_opioid:
+  //   "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Pulled%20Data/opioids/Harmonized%20Opioid%20Overdose%20Datasets_01.23.2025.csv",
 
   // Add other predefined dataset URLs here
 };
@@ -51,10 +55,9 @@ export const DataProvider = ({ children }: DataProviderProps) => {
 
   // Function to load data if not already present in context
   const loadData = (datasetName: string, url: string) => {
-    if (datasets[datasetName]) {
-      return; // Dataset already loaded, no need to fetch it again
-    }
+    if (datasets[datasetName]) return; // Dataset already loaded, no need to fetch it again
 
+    // Handle CSV files
     fetch(url)
       .then((response) => response.text())
       .then((csvData) => {
@@ -77,16 +80,34 @@ export const DataProvider = ({ children }: DataProviderProps) => {
       .then(setGeoJson);
   };
 
-  // Preload predefined datasets on component mount
+  const preloadList: (keyof typeof predefinedDatasets)[] = [
+    "rsv_combined_all_outcomes_state",
+  ];
+
   useEffect(() => {
-    Object.entries(predefinedDatasets).forEach(([datasetName, url]) => {
+    // Load only the prioritized datasets first
+    preloadList.forEach((datasetName) => {
+      const url = predefinedDatasets[datasetName];
       if (datasetName === "county_geojson") {
-        loadGeoJson(url); // Special case for GeoJSON
+        loadGeoJson(url);
       } else {
-        loadData(datasetName, url); // Load other datasets
+        loadData(datasetName, url);
       }
     });
-  }, []);
+
+    // Defer loading of remaining datasets until after initial load
+    const timeout = setTimeout(() => {
+      Object.entries(predefinedDatasets).forEach(([datasetName, url]) => {
+        if (datasetName === "county_geojson") {
+          loadGeoJson(url);
+        } else {
+          loadData(datasetName, url);
+        }
+      });
+    }, 1000); // delay in ms after mount
+
+    return () => clearTimeout(timeout); // clean up on unmount
+  }, [datasets]);
 
   return (
     <DataContext.Provider value={{ datasets, geoJson, loadData }}>

@@ -1,7 +1,9 @@
 import {
   Box,
+  CircularProgress,
   FormControl,
   InputLabel,
+  LinearProgress,
   MenuItem,
   Select,
   Typography,
@@ -147,6 +149,15 @@ export const TrendsPlot = ({
     "longdash",
     "longdashdot",
   ];
+
+  if (!datasets[datasetName]) {
+    return (
+      <>
+        <CircularProgress />
+        <Typography>Loading data...</Typography>
+      </>
+    );
+  }
 
   return (
     <Box>

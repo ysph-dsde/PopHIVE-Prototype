@@ -1,4 +1,4 @@
-import { Box, Slider, Typography } from "@mui/material";
+import { Box, CircularProgress, Slider, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 import { useData } from "../../context/DataContext";
@@ -76,6 +76,7 @@ const StateMap = ({ disease }: StateMapProps) => {
   const [dateRange, setDateRange] = useState<string[]>([]); // Range of dates for the slider
 
   useEffect(() => {
+    if (!datasets[datasetName]) return;
     const data = datasets[datasetName];
     const dates = [...new Set(data.map((row) => row.date))].filter(Boolean);
     setDateRange(dates);
@@ -156,6 +157,15 @@ const StateMap = ({ disease }: StateMapProps) => {
       label: dateRange[dateRange.length - 1],
     },
   ];
+
+  if (!datasets[datasetName]) {
+    return (
+      <>
+        <CircularProgress />
+        <Typography>Loading data...</Typography>
+      </>
+    );
+  }
 
   return (
     <Box>

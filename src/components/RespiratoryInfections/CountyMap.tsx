@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import { useMemo } from "react";
 import Plot from "react-plotly.js";
 import { useData } from "../../context/DataContext";
@@ -18,6 +18,7 @@ const CountyMap = ({ disease }: CountyMapProps) => {
   const datasetName = "rsv_flu_covid_county_filled_map_nssp";
 
   const data = useMemo(() => {
+    if (!datasets[datasetName]) return [];
     const fieldName = diseaseFieldMap[disease];
 
     return datasets[datasetName].map((row) => ({
@@ -27,6 +28,15 @@ const CountyMap = ({ disease }: CountyMapProps) => {
       percent: row[fieldName] ? parseFloat(row[fieldName]) : null,
     }));
   }, [datasets, datasetName]);
+
+  if (!datasets[datasetName]) {
+    return (
+      <>
+        <CircularProgress />
+        <Typography>Loading data...</Typography>
+      </>
+    );
+  }
 
   return (
     <Box>

@@ -1,11 +1,11 @@
 {
   "files": {
-    "main.js": "/your-repo-name/static/js/main.4b7be012.js",
-    "static/media/ysphLogo.png": "/your-repo-name/static/media/ysphLogo.5722dacfa46a8cb69e1a.png",
-    "index.html": "/your-repo-name/index.html",
-    "main.4b7be012.js.map": "/your-repo-name/static/js/main.4b7be012.js.map"
+    "main.js": "/PopHIVE-Prototype/static/js/main.9651ba10.js",
+    "static/media/ysphLogo.png": "/PopHIVE-Prototype/static/media/ysphLogo.5722dacfa46a8cb69e1a.png",
+    "index.html": "/PopHIVE-Prototype/index.html",
+    "main.9651ba10.js.map": "/PopHIVE-Prototype/static/js/main.9651ba10.js.map"
   },
   "entrypoints": [
-    "static/js/main.4b7be012.js"
+    "static/js/main.9651ba10.js"
   ]
 }

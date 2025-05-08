@@ -1,11 +1,11 @@
-import { Link, Typography } from "@mui/material";
+import { Box, Link, Typography } from "@mui/material";
 
 export const Documentation = () => {
   return (
-    <>
-      <Typography variant="h5">Notes on data sources</Typography>
+    <Box sx={{ "& > .MuiTypography-root": { mb: 1 } }}>
+      <Typography variant="h6">Notes on data sources</Typography>
       <Typography>Coming soon!</Typography>
-      <Typography variant="h5">Acknowledgements</Typography>
+      <Typography variant="h6">Acknowledgements</Typography>
       <Typography>
         We thank all of the organizations and individuals who make their data
         available for health monitoring and research.
@@ -24,20 +24,18 @@ export const Documentation = () => {
         metropolitan area, are obtained from the{" "}
         <Link href="https://developers.google.com/terms/">
           Google Trends API
-        </Link>
-        &nbsp;for non-commercial purposes.
+        </Link>{" "}
+        for non-commercial purposes.
+      </Typography>
+      <Typography>Contributors include: </Typography>
+      <Typography>
+        Data wrangling, code, visualization: Shelby Golden, Howard Baik, Micah
+        Iserman, Maurice Dalton, Deus Thindwa, Stephanie Perniciaro, Dan
+        Weinberger, Evan Cohen, Hanmeng Xu, Delphi/CMU, Epic/Cosmos
       </Typography>
       <Typography>
-        Contributors include:
-        <Typography>
-          Data wrangling, code, visualization: Shelby Golden, Howard Baik, Micah
-          Iserman, Maurice Dalton, Deus Thindwa, Stephanie Perniciaro, Dan
-          Weinberger
-        </Typography>
-        <Typography>
-          Project Leadership and Partners: Megan Ranney, Bhramar Mukherjee,
-          Katelyn Jetelina, Ron Borzekowski, Anne Zink, and Dan Weinberger
-        </Typography>
+        Project Leadership and Partners: Megan Ranney, Bhramar Mukherjee,
+        Katelyn Jetelina, Ron Borzekowski, Anne Zink, and Dan Weinberger
       </Typography>
       <Typography>
         Feedback or suggestions?{" "}
@@ -45,7 +43,7 @@ export const Documentation = () => {
           Let us know!
         </Link>
       </Typography>
-      <Typography variant="h5">Legal Disclaimer</Typography>
+      <Typography variant="h6">Legal Disclaimer</Typography>
       <Typography>
         These data and PopHIVE statistical outputs are provided “as is”, without
         warranty of any kind, express or implied, including but not limited to
@@ -66,6 +64,6 @@ export const Documentation = () => {
         professionals. Healthcare professionals should use their professional
         judgment in evaluating the outputs of the PopHIVE statistical outputs.
       </Typography>
-    </>
+    </Box>
   );
 };

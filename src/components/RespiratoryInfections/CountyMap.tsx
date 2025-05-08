@@ -80,7 +80,7 @@ export const CountyMap = ({ disease }: CountyMapProps) => {
             margin: { t: 50, b: 50, l: 50, r: 50 },
           }}
           config={{ responsive: true }}
-          style={{ width: "100%", height: "100%" }}
+          style={{ width: "100%", height: "500px" }}
         />
       )}
     </Box>

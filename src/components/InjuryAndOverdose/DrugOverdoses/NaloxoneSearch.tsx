@@ -100,7 +100,6 @@ export const NaloxoneSearch = () => {
             title: { text: 'Search Volume for "Naloxone"' },
           },
           margin: { t: 40 },
-          height: 450,
           showlegend: false,
         }}
         config={{ responsive: true }}

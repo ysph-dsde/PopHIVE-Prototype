@@ -1,0 +1,11 @@
+{
+  "files": {
+    "main.js": "/your-repo-name/static/js/main.4b7be012.js",
+    "static/media/ysphLogo.png": "/your-repo-name/static/media/ysphLogo.5722dacfa46a8cb69e1a.png",
+    "index.html": "/your-repo-name/index.html",
+    "main.4b7be012.js.map": "/your-repo-name/static/js/main.4b7be012.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.4b7be012.js"
+  ]
+}

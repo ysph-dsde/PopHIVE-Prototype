@@ -1,24 +1,25 @@
 import { Typography } from "@mui/material";
-import Opioids from "./Opioids/Opioids";
+import { DrugOverdoses } from "./DrugOverdoses/DrugOverdoses";
 import { CustomTabs } from "../shared/CustomTabs";
+import { SelfHarm } from "./SelfHarm/SelfHarm";
 
 const InjuryAndOverdose = () => {
-  const respiratoryInfectionsTabs = [
+  const injuryAndOverdoseTabs = [
     {
       label: "Self-harm",
-      content: <Typography>Self-harm coming soon</Typography>,
+      content: <SelfHarm />,
     },
     {
       label: "Drug overdoses",
-      content: <Opioids />,
+      content: <DrugOverdoses />,
     },
     {
       label: "Road accidents",
-      content: <Typography>Road accidents coming soon</Typography>,
+      content: <Typography>Coming soon</Typography>,
     },
   ];
 
-  return <CustomTabs tabs={respiratoryInfectionsTabs} />;
+  return <CustomTabs tabs={injuryAndOverdoseTabs} />;
 };
 
 export default InjuryAndOverdose;

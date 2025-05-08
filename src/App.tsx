@@ -1,13 +1,14 @@
 import { Box, CssBaseline, ThemeProvider, Typography } from "@mui/material";
 import { theme } from "./Theme";
 import ysphLogo from "./assets/images/ysphLogo.png";
-import Opioids from "./components/InjuryAndOverdose/Opioids/Opioids";
 import Documentation from "./components/Documentation";
 import { useState } from "react";
 import NavBar from "./components/NavBar";
 import { DataProvider } from "./context/DataContext";
 import RespiratoryInfections from "./components/RespiratoryInfections/RespiratoryInfections";
 import InjuryAndOverdose from "./components/InjuryAndOverdose/InjuryAndOverdose";
+import { ChildhoodImmunizationRates } from "./components/ChildhoodImmunizationRates/ChildhoodImmunizationRates";
+import { ChronicDiseases } from "./components/ChronicDisease/ChronicDiseases";
 
 const sections = [
   {
@@ -33,18 +34,18 @@ const sections = [
   {
     id: "childhood-immunization",
     title: "Childhood immunization rates",
-    component: <Typography>Content coming soon</Typography>,
+    component: <ChildhoodImmunizationRates />,
   },
   {
     id: "chronic-disease",
     title: "Chronic disease",
-    component: <Typography>Content coming soon</Typography>,
+    component: <ChronicDiseases />,
   },
-  {
-    id: "youth-wellbeing",
-    title: "Youth Wellbeing",
-    component: <Typography>Content coming soon</Typography>,
-  },
+  // {
+  //   id: "youth-wellbeing",
+  //   title: "Youth Wellbeing",
+  //   component: <Typography>Content coming soon</Typography>,
+  // },
   {
     id: "injury-and-overdose",
     title: "Injury and overdose",

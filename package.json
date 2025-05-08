@@ -1,5 +1,6 @@
 {
   "name": "pophive",
+  "homepage": "https://ysph-dsde.github.io/PopHIVE-Prototype",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -14,6 +15,7 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "apache-arrow": "^19.0.1",
+    "gh-pages": "^6.3.0",
     "papaparse": "^5.5.2",
     "plotly.js-dist": "^3.0.1",
     "react": "^18.3.1",
@@ -27,7 +29,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "browserslist": {
     "production": [

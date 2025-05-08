@@ -20,7 +20,7 @@ interface DataEntry {
   mmwrweek_end: string;
 }
 
-const PositiveTests = () => {
+export const PositiveTests = () => {
   const { datasets } = useData(); // Get the datasets from DataContext
   const datasetName = "rsv_ts_nrevss_test_rsv"; // Dataset name in DataContext
   const [selectedRegion, setSelectedRegion] = useState<string>("");
@@ -124,5 +124,3 @@ const PositiveTests = () => {
     </Box>
   );
 };
-
-export default PositiveTests;

@@ -1,5 +1,5 @@
-import OpioidOverdosePlot from "./OpioidsOverdose";
-import ChoroplethMap from "./OpioidsMap";
+import { OpioidOverdosePlot } from "./OpioidsOverdose";
+import { ChoroplethMap } from "./OpioidsMap";
 import { CustomTabs } from "../../shared/CustomTabs";
 import { Typography } from "@mui/material";
 import { NaloxoneSearch } from "./NaloxoneSearch";

@@ -6,7 +6,6 @@ import {
   Typography,
 } from "@mui/material";
 import Plot from "react-plotly.js";
-import Papa from "papaparse";
 import { useEffect, useState } from "react";
 import { useData } from "../../../context/DataContext";
 

@@ -20,7 +20,7 @@ interface NavBarProps {
   handleDrawerToggle: () => void;
 }
 
-const NavigationBar = ({
+export const NavigationBar = ({
   sections,
   drawerOpen,
   handleDrawerToggle,
@@ -94,5 +94,3 @@ const NavigationBar = ({
     </>
   );
 };
-
-export default NavigationBar;

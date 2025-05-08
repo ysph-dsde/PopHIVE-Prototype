@@ -1,8 +1,8 @@
 import { OverallTrends } from "./OverallTrends";
-import PositiveTests from "./RSV/PositiveTests";
-import ByAge from "./ByAge";
-import StateMap from "./StateMap";
-import CountyMap from "./CountyMap";
+import { PositiveTests } from "./RSV/PositiveTests";
+import { ByAge } from "./ByAge";
+import { StateMap } from "./StateMap";
+import { CountyMap } from "./CountyMap";
 import { Typography } from "@mui/material";
 import { CustomTabs } from "../shared/CustomTabs";
 
@@ -13,7 +13,7 @@ interface RespiratoryInfectionProps {
 export const RespiratoryInfection = ({
   disease,
 }: RespiratoryInfectionProps) => {
-  const rsvTabs = [
+  const respiratoryInfectionTabs = [
     { label: "Overall trends", content: <OverallTrends disease={disease} /> },
     ...(disease === "rsv"
       ? [{ label: "Trends in positive tests", content: <PositiveTests /> }]
@@ -45,5 +45,5 @@ export const RespiratoryInfection = ({
       : []),
   ];
 
-  return <CustomTabs tabs={rsvTabs} />;
+  return <CustomTabs tabs={respiratoryInfectionTabs} />;
 };

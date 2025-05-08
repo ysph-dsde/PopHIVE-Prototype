@@ -10,6 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 import { useData } from "../../context/DataContext";
+import { stateList } from "../../constants/geo";
 
 interface DataEntry {
   geography: string;
@@ -52,62 +53,9 @@ export const TrendsPlot = ({
     }
   }, [selectedGeography, datasets, datasetName]);
 
-  const US_STATES = new Set([
-    "Alabama",
-    "Alaska",
-    "Arizona",
-    "Arkansas",
-    "California",
-    "Colorado",
-    "Connecticut",
-    "Delaware",
-    "Florida",
-    "Georgia",
-    "Hawaii",
-    "Idaho",
-    "Illinois",
-    "Indiana",
-    "Iowa",
-    "Kansas",
-    "Kentucky",
-    "Louisiana",
-    "Maine",
-    "Maryland",
-    "Massachusetts",
-    "Michigan",
-    "Minnesota",
-    "Mississippi",
-    "Missouri",
-    "Montana",
-    "Nebraska",
-    "Nevada",
-    "New Hampshire",
-    "New Jersey",
-    "New Mexico",
-    "New York",
-    "North Carolina",
-    "North Dakota",
-    "Ohio",
-    "Oklahoma",
-    "Oregon",
-    "Pennsylvania",
-    "Rhode Island",
-    "South Carolina",
-    "South Dakota",
-    "Tennessee",
-    "Texas",
-    "Utah",
-    "Vermont",
-    "Virginia",
-    "Washington",
-    "West Virginia",
-    "Wisconsin",
-    "Wyoming",
-  ]);
-
   const geographies = [
     ...new Set(datasets[datasetName]?.map((row) => row.geography) || []),
-  ].filter((geo) => US_STATES.has(geo));
+  ].filter((geo) => stateList.has(geo));
   const outcomeLabels = [
     ...new Set(datasets[datasetName]?.map((row) => row.outcome_label1) || []),
   ];

@@ -1,6 +1,6 @@
 import { Link, Typography } from "@mui/material";
 
-const Documentation = () => {
+export const Documentation = () => {
   return (
     <>
       <Typography variant="h5">Notes on data sources</Typography>
@@ -69,5 +69,3 @@ const Documentation = () => {
     </>
   );
 };
-
-export default Documentation;

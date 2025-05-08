@@ -13,7 +13,7 @@ const diseaseFieldMap: Record<string, string> = {
   covid: "percent_visits_covid",
 };
 
-const CountyMap = ({ disease }: CountyMapProps) => {
+export const CountyMap = ({ disease }: CountyMapProps) => {
   const { datasets, geoJson } = useData();
   const datasetName = "rsv_flu_covid_county_filled_map_nssp";
 
@@ -86,5 +86,3 @@ const CountyMap = ({ disease }: CountyMapProps) => {
     </Box>
   );
 };
-
-export default CountyMap;

@@ -8,7 +8,6 @@ import {
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 import { useData } from "../../context/DataContext";
-import Papa from "papaparse";
 
 interface DataEntry {
   geography: string;

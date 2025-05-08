@@ -2,7 +2,7 @@ import { Typography } from "@mui/material";
 import { CustomTabs } from "../shared/CustomTabs";
 import { RespiratoryInfection } from "./RespiratoryInfection";
 
-const RespiratoryInfections = () => {
+export const RespiratoryInfections = () => {
   const respiratoryInfectionsTabs = [
     {
       label: "Respiratory Syncytial Virus (RSV)",
@@ -24,5 +24,3 @@ const RespiratoryInfections = () => {
 
   return <CustomTabs tabs={respiratoryInfectionsTabs} />;
 };
-
-export default RespiratoryInfections;

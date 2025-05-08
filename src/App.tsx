@@ -1,18 +1,12 @@
-import {
-  Box,
-  Button,
-  CssBaseline,
-  ThemeProvider,
-  Typography,
-} from "@mui/material";
+import { Box, CssBaseline, ThemeProvider, Typography } from "@mui/material";
 import { theme } from "./Theme";
 import ysphLogo from "./assets/images/ysphLogo.png";
-import Documentation from "./components/Documentation";
+import { Documentation } from "./components/Documentation";
 import { useState } from "react";
-import NavBar from "./components/NavBar";
+import { NavigationBar } from "./components/NavBar";
 import { DataProvider } from "./context/DataContext";
-import RespiratoryInfections from "./components/RespiratoryInfections/RespiratoryInfections";
-import InjuryAndOverdose from "./components/InjuryAndOverdose/InjuryAndOverdose";
+import { RespiratoryInfections } from "./components/RespiratoryInfections/RespiratoryInfections";
+import { InjuryAndOverdose } from "./components/InjuryAndOverdose/InjuryAndOverdose";
 import { ChildhoodImmunizationRates } from "./components/ChildhoodImmunizationRates/ChildhoodImmunizationRates";
 import { ChronicDiseases } from "./components/ChronicDisease/ChronicDiseases";
 
@@ -71,34 +65,6 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <DataProvider>
         <CssBaseline />
-        {/* <Box
-          sx={{
-            backgroundColor: theme.palette.primary.main,
-            height: "100vh",
-            width: "100vw",
-            padding: 3,
-          }}
-        >
-          <Typography
-            variant="h1"
-            sx={{ color: "white", margin: "auto 0" }}
-          >
-            Welcome to Pophive
-          </Typography>
-          <Typography
-            variant="h4"
-            sx={{ color: "white", margin: "auto 0" }}
-          >
-            Popular Health Information and Visualization Exchange
-          </Typography>
-          <br />
-          <Button
-            variant="contained"
-            color="secondary"
-          >
-            See the data
-          </Button>
-        </Box> */}
         <Box
           sx={{
             backgroundColor: theme.palette.primary.main,
@@ -122,7 +88,7 @@ const App = () => {
           />
         </Box>
 
-        <NavBar
+        <NavigationBar
           sections={sections}
           drawerOpen={drawerOpen}
           handleDrawerToggle={handleDrawerToggle}

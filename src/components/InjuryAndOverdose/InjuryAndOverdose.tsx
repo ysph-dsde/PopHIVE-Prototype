@@ -3,7 +3,7 @@ import { DrugOverdoses } from "./DrugOverdoses/DrugOverdoses";
 import { CustomTabs } from "../shared/CustomTabs";
 import { SelfHarm } from "./SelfHarm/SelfHarm";
 
-const InjuryAndOverdose = () => {
+export const InjuryAndOverdose = () => {
   const injuryAndOverdoseTabs = [
     {
       label: "Self-harm",
@@ -21,5 +21,3 @@ const InjuryAndOverdose = () => {
 
   return <CustomTabs tabs={injuryAndOverdoseTabs} />;
 };
-
-export default InjuryAndOverdose;

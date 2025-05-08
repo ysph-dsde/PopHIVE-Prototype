@@ -10,60 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useData } from "../../context/DataContext";
-
-const stateList = [
-  "Alabama",
-  "Alaska",
-  "Arizona",
-  "Arkansas",
-  "California",
-  "Colorado",
-  "Connecticut",
-  "Delaware",
-  "District of Columbia",
-  "Florida",
-  "Georgia",
-  "Hawaii",
-  "Idaho",
-  "Illinois",
-  "Indiana",
-  "Iowa",
-  "Kansas",
-  "Kentucky",
-  "Louisiana",
-  "Maine",
-  "Maryland",
-  "Massachusetts",
-  "Michigan",
-  "Minnesota",
-  "Mississippi",
-  "Missouri",
-  "Montana",
-  "Nebraska",
-  "Nevada",
-  "New Hampshire",
-  "New Jersey",
-  "New Mexico",
-  "New York",
-  "North Carolina",
-  "North Dakota",
-  "Ohio",
-  "Oklahoma",
-  "Oregon",
-  "Pennsylvania",
-  "Rhode Island",
-  "South Carolina",
-  "South Dakota",
-  "Tennessee",
-  "Texas",
-  "Utah",
-  "Vermont",
-  "Virginia",
-  "Washington",
-  "West Virginia",
-  "Wisconsin",
-  "Wyoming",
-];
+import { stateList } from "../../constants/geo";
 
 export const UptakeByState = () => {
   const [filteredData, setFilteredData] = useState<any[]>([]);
@@ -77,7 +24,7 @@ export const UptakeByState = () => {
       (d: any) =>
         d.age === selectedAge &&
         d.birth_year === 2021 &&
-        stateList.includes(d.Geography) &&
+        stateList.has(d.Geography) &&
         d.Outcome_value1 != null,
     );
     setFilteredData(filtered);

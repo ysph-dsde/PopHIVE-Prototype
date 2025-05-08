@@ -1,6 +1,5 @@
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import Papa from "papaparse";
 import Plot from "react-plotly.js";
 import { useData } from "../../../context/DataContext";
 
@@ -11,7 +10,7 @@ interface DataEntry {
   count: number;
 }
 
-const OpioidOverdosePlot = () => {
+export const OpioidOverdosePlot = () => {
   const { datasets } = useData(); // Get the datasets from DataContext
   const datasetName = "opioid_time_series";
   const [data, setData] = useState<any[] | null>(null);
@@ -66,7 +65,6 @@ const OpioidOverdosePlot = () => {
         "CDC WONDER",
       ),
     ]);
-    // });
   }, [datasets, datasetName]); // Run once on mount
 
   const filteredTickVals = timePoints.filter((_, i) => i % 4 === 0);
@@ -139,5 +137,3 @@ const OpioidOverdosePlot = () => {
     </Box>
   );
 };
-
-export default OpioidOverdosePlot;

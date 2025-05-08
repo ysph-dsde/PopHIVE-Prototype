@@ -1,61 +1,8 @@
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import Papa from "papaparse";
 import Plot from "react-plotly.js";
 import { useData } from "../../../context/DataContext";
-
-const stateAbbreviations: { [key: string]: string } = {
-  Alabama: "AL",
-  Alaska: "AK",
-  Arizona: "AZ",
-  Arkansas: "AR",
-  California: "CA",
-  Colorado: "CO",
-  Connecticut: "CT",
-  Delaware: "DE",
-  Florida: "FL",
-  Georgia: "GA",
-  Hawaii: "HI",
-  Idaho: "ID",
-  Illinois: "IL",
-  Indiana: "IN",
-  Iowa: "IA",
-  Kansas: "KS",
-  Kentucky: "KY",
-  Louisiana: "LA",
-  Maine: "ME",
-  Maryland: "MD",
-  Massachusetts: "MA",
-  Michigan: "MI",
-  Minnesota: "MN",
-  Mississippi: "MS",
-  Missouri: "MO",
-  Montana: "MT",
-  Nebraska: "NE",
-  Nevada: "NV",
-  "New Hampshire": "NH",
-  "New Jersey": "NJ",
-  "New Mexico": "NM",
-  "New York": "NY",
-  "North Carolina": "NC",
-  "North Dakota": "ND",
-  Ohio: "OH",
-  Oklahoma: "OK",
-  Oregon: "OR",
-  Pennsylvania: "PA",
-  "Rhode Island": "RI",
-  "South Carolina": "SC",
-  "South Dakota": "SD",
-  Tennessee: "TN",
-  Texas: "TX",
-  Utah: "UT",
-  Vermont: "VT",
-  Virginia: "VA",
-  Washington: "WA",
-  "West Virginia": "WV",
-  Wisconsin: "WI",
-  Wyoming: "WY",
-};
+import { stateAbbreviations } from "../../../constants/geo";
 
 const abbreviationToState = Object.fromEntries(
   Object.entries(stateAbbreviations).map(([full, abbr]) => [abbr, full]),
@@ -74,7 +21,7 @@ interface ChoroplethMapProps {
   title: string;
 }
 
-const ChoroplethMap = ({ datasetName, title }: ChoroplethMapProps) => {
+export const ChoroplethMap = ({ datasetName, title }: ChoroplethMapProps) => {
   const { datasets } = useData(); // Get the datasets from DataContext
   const [data, setData] = useState<DataEntry[]>([]);
 
@@ -99,7 +46,6 @@ const ChoroplethMap = ({ datasetName, title }: ChoroplethMapProps) => {
     }));
 
     setData(mappedData);
-    // });
   }, [datasets, datasetName]);
 
   if (data.length === 0) {
@@ -174,5 +120,3 @@ const ChoroplethMap = ({ datasetName, title }: ChoroplethMapProps) => {
     </Box>
   );
 };
-
-export default ChoroplethMap;

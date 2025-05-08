@@ -11,6 +11,7 @@ import {
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 import { useData } from "../../context/DataContext";
+import { stateList } from "../../constants/geo";
 
 interface DataEntry {
   geography: string;
@@ -34,7 +35,7 @@ interface ByAgeProps {
   disease: "rsv" | "flu" | "covid";
 }
 
-const ByAge = ({ disease }: ByAgeProps) => {
+export const ByAge = ({ disease }: ByAgeProps) => {
   const { datasets } = useData(); // Get the datasets from DataContext
   const epicDatasetName = "rsv_flu_covid_epic_cosmos_age_state";
 
@@ -65,64 +66,11 @@ const ByAge = ({ disease }: ByAgeProps) => {
     }
   }, [selectedState, datasets, hospDatasetName]);
 
-  const US_STATES = new Set([
-    "Alabama",
-    "Alaska",
-    "Arizona",
-    "Arkansas",
-    "California",
-    "Colorado",
-    "Connecticut",
-    "Delaware",
-    "Florida",
-    "Georgia",
-    "Hawaii",
-    "Idaho",
-    "Illinois",
-    "Indiana",
-    "Iowa",
-    "Kansas",
-    "Kentucky",
-    "Louisiana",
-    "Maine",
-    "Maryland",
-    "Massachusetts",
-    "Michigan",
-    "Minnesota",
-    "Mississippi",
-    "Missouri",
-    "Montana",
-    "Nebraska",
-    "Nevada",
-    "New Hampshire",
-    "New Jersey",
-    "New Mexico",
-    "New York",
-    "North Carolina",
-    "North Dakota",
-    "Ohio",
-    "Oklahoma",
-    "Oregon",
-    "Pennsylvania",
-    "Rhode Island",
-    "South Carolina",
-    "South Dakota",
-    "Tennessee",
-    "Texas",
-    "Utah",
-    "Vermont",
-    "Virginia",
-    "Washington",
-    "West Virginia",
-    "Wisconsin",
-    "Wyoming",
-  ]);
-
   const states = [
     ...new Set(
       datasets[epicDatasetName]?.map((row: DataEntry) => row.geography),
     ),
-  ].filter((geo) => US_STATES.has(geo));
+  ].filter((geo) => stateList.has(geo));
 
   const toggleRescale = () => {
     setUseRescaledData(!useRescaledData);
@@ -285,5 +233,3 @@ const ByAge = ({ disease }: ByAgeProps) => {
     </Box>
   );
 };
-
-export default ByAge;

@@ -3,6 +3,7 @@ import { ChoroplethMap } from "./OpioidsMap";
 import { CustomTabs } from "../../shared/CustomTabs";
 import { Typography } from "@mui/material";
 import { NaloxoneSearch } from "./NaloxoneSearch";
+import { OpioidWafflePlot } from "./OpioidWaffle";
 
 export const DrugOverdoses = () => {
   const drugOverdosesTabs = [
@@ -35,7 +36,8 @@ export const DrugOverdoses = () => {
     },
     {
       label: "Type of opioid",
-      content: <Typography>Coming soon</Typography>,
+      // content: <Typography>Coming soon</Typography>,
+      content: <OpioidWafflePlot />,
     },
   ];
 

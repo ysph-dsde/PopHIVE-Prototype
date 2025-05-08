@@ -1,8 +1,9 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 import { useData } from "../../../context/DataContext";
 import { stateAbbreviations } from "../../../constants/geo";
+import { DataLoading } from "../../shared/DataLoading";
 
 const abbreviationToState = Object.fromEntries(
   Object.entries(stateAbbreviations).map(([full, abbr]) => [abbr, full]),
@@ -49,12 +50,7 @@ export const ChoroplethMap = ({ datasetName, title }: ChoroplethMapProps) => {
   }, [datasets, datasetName]);
 
   if (data.length === 0) {
-    return (
-      <>
-        <CircularProgress />
-        <Typography>Loading data...</Typography>
-      </>
-    );
+    return <DataLoading />;
   }
 
   return (

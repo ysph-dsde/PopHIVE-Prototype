@@ -1,8 +1,9 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 import { useData } from "../../context/DataContext";
 import { stateList } from "../../constants/geo";
+import { DataLoading } from "../shared/DataLoading";
 
 interface DataEntry {
   geography: string;
@@ -66,12 +67,7 @@ export const ObesityVsDiabetes = () => {
   };
 
   if (obesityData.length === 0 || diabetesData.length === 0) {
-    return (
-      <>
-        <CircularProgress />
-        <Typography>Loading data...</Typography>
-      </>
-    );
+    return <DataLoading />;
   }
 
   return (

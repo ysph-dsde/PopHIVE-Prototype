@@ -1,7 +1,8 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 import { useData } from "../../../context/DataContext";
+import { DataLoading } from "../../shared/DataLoading";
 
 interface DataEntry {
   dataset: string;
@@ -70,12 +71,7 @@ export const OpioidOverdosePlot = () => {
   const filteredTickVals = timePoints.filter((_, i) => i % 4 === 0);
 
   if (data === null) {
-    return (
-      <>
-        <CircularProgress />
-        <Typography>Loading data...</Typography>
-      </>
-    );
+    return <DataLoading />;
   }
 
   return (

@@ -1,13 +1,8 @@
-import {
-  Autocomplete,
-  Box,
-  CircularProgress,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Autocomplete, Box, TextField } from "@mui/material";
 import Plot from "react-plotly.js";
 import { useEffect, useState } from "react";
 import { useData } from "../../../context/DataContext";
+import { DataLoading } from "../../shared/DataLoading";
 
 interface DataEntry {
   date: string;
@@ -57,12 +52,7 @@ export const NaloxoneSearch = () => {
   const plotData = data[selectedState] || [];
 
   if (!datasets[datasetName]) {
-    return (
-      <>
-        <CircularProgress />
-        <Typography>Loading data...</Typography>
-      </>
-    );
+    return <DataLoading />;
   }
 
   return (

@@ -1,7 +1,8 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { useMemo } from "react";
 import Plot from "react-plotly.js";
 import { useData } from "../../context/DataContext";
+import { DataLoading } from "../shared/DataLoading";
 
 interface CountyMapProps {
   disease: "rsv" | "flu" | "covid";
@@ -30,12 +31,7 @@ export const CountyMap = ({ disease }: CountyMapProps) => {
   }, [datasets, datasetName]);
 
   if (!datasets[datasetName]) {
-    return (
-      <>
-        <CircularProgress />
-        <Typography>Loading data...</Typography>
-      </>
-    );
+    return <DataLoading />;
   }
 
   return (

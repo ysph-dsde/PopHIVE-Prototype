@@ -1,16 +1,9 @@
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
-import {
-  Box,
-  CircularProgress,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Typography,
-} from "@mui/material";
+import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { useData } from "../../context/DataContext";
 import { stateList } from "../../constants/geo";
+import { DataLoading } from "../shared/DataLoading";
 
 export const UptakeByState = () => {
   const [filteredData, setFilteredData] = useState<any[]>([]);
@@ -71,12 +64,7 @@ export const UptakeByState = () => {
   ];
 
   if (filteredData.length === 0) {
-    return (
-      <>
-        <CircularProgress />
-        <Typography>Loading data...</Typography>
-      </>
-    );
+    return <DataLoading />;
   }
 
   return (

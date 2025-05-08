@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 import {
   Box,
-  CircularProgress,
   FormControl,
   InputLabel,
   MenuItem,
@@ -10,6 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useData } from "../../context/DataContext";
+import { DataLoading } from "../shared/DataLoading";
 
 interface DataEntry {
   Vaccine: string;
@@ -187,12 +187,7 @@ export const UptakeByDimension = ({ dimension }: UptakeByDimensionProps) => {
   ];
 
   if (filteredData.length === 0) {
-    return (
-      <>
-        <CircularProgress />
-        <Typography>Loading data...</Typography>
-      </>
-    );
+    return <DataLoading />;
   }
 
   return (

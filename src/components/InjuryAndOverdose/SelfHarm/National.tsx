@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 import { useData } from "../../../context/DataContext";
-import { CircularProgress, Typography } from "@mui/material";
+import { DataLoading } from "../../shared/DataLoading";
 
 interface DataEntry {
   age_level: string;
@@ -143,12 +143,7 @@ export const NationalSelfHarm = () => {
   };
 
   if (!datasets[datasetName]) {
-    return (
-      <>
-        <CircularProgress />
-        <Typography>Loading data...</Typography>
-      </>
-    );
+    return <DataLoading />;
   }
 
   return (

@@ -1,6 +1,5 @@
 import {
   Box,
-  CircularProgress,
   FormControl,
   InputLabel,
   MenuItem,
@@ -10,6 +9,7 @@ import {
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 import { useData } from "../../../context/DataContext";
+import { DataLoading } from "../../shared/DataLoading";
 
 interface DataEntry {
   level: string;
@@ -49,12 +49,7 @@ export const PositiveTests = () => {
   const traceData = [...new Set(filteredData.map((row) => row.epiyr))];
 
   if (!datasets[datasetName]) {
-    return (
-      <>
-        <CircularProgress />
-        <Typography>Loading data...</Typography>
-      </>
-    );
+    return <DataLoading />;
   }
 
   return (

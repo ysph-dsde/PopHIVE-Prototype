@@ -1,8 +1,9 @@
-import { Box, CircularProgress, Slider, Typography } from "@mui/material";
+import { Box, Slider, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 import { useData } from "../../context/DataContext";
 import { stateAbbreviations } from "../../constants/geo";
+import { DataLoading } from "../shared/DataLoading";
 
 interface DataEntry {
   geography: string;
@@ -107,12 +108,7 @@ export const StateMap = ({ disease }: StateMapProps) => {
   ];
 
   if (!datasets[datasetName]) {
-    return (
-      <>
-        <CircularProgress />
-        <Typography>Loading data...</Typography>
-      </>
-    );
+    return <DataLoading />;
   }
 
   return (

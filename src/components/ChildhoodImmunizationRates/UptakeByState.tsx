@@ -178,10 +178,12 @@ export const UptakeByState = () => {
             zeroline: false,
           },
           showlegend: false,
-          height: 500,
         }}
         config={{ responsive: true }}
-        style={{ width: "100%" }}
+        style={{
+          width: "100%",
+          height: "500px",
+        }}
       />
     </Box>
   );

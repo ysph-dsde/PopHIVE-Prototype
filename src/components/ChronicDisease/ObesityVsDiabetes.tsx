@@ -2,6 +2,7 @@ import { Box, CircularProgress, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 import Papa from "papaparse";
+import { useData } from "../../context/DataContext";
 
 interface DataEntry {
   geography: string;
@@ -66,42 +67,37 @@ const US_STATES = new Set([
 export const ObesityVsDiabetes = () => {
   const [obesityData, setObesityData] = useState<Record<string, number>>({});
   const [diabetesData, setDiabetesData] = useState<Record<string, number>>({});
+  const { datasets } = useData();
+  const datasetName = "diabetes_obesity";
 
   useEffect(() => {
-    fetch("/diabetes_obesity.csv")
-      .then((res) => res.text())
-      .then((csv) => {
-        const parsed = Papa.parse(csv, {
-          header: true,
-          dynamicTyping: true,
-        });
-        const data = parsed.data as DataEntry[];
+    if (!datasets[datasetName]) return;
+    const data = datasets[datasetName] as DataEntry[];
 
-        const isState = (geo: string): boolean => US_STATES.has(geo);
+    const isState = (geo: string): boolean => US_STATES.has(geo);
 
-        const filtered = data.filter(
-          (row) =>
-            row.age_level === "Total" &&
-            row.Outcome_value1 != null &&
-            isState(row.geography),
-        );
+    const filtered = data.filter(
+      (row) =>
+        row.age_level === "Total" &&
+        row.Outcome_value1 != null &&
+        isState(row.geography),
+    );
 
-        const obesity: Record<string, number> = {};
-        const diabetes: Record<string, number> = {};
+    const obesity: Record<string, number> = {};
+    const diabetes: Record<string, number> = {};
 
-        filtered.forEach((row) => {
-          const geo = row.geography;
-          if (row.outcome_name === "obesity") {
-            obesity[geo] = row.Outcome_value1;
-          } else if (row.outcome_name === "diabetes") {
-            diabetes[geo] = row.Outcome_value1;
-          }
-        });
+    filtered.forEach((row) => {
+      const geo = row.geography;
+      if (row.outcome_name === "obesity") {
+        obesity[geo] = row.Outcome_value1;
+      } else if (row.outcome_name === "diabetes") {
+        diabetes[geo] = row.Outcome_value1;
+      }
+    });
 
-        setObesityData(obesity);
-        setDiabetesData(diabetes);
-      });
-  }, []);
+    setObesityData(obesity);
+    setDiabetesData(diabetes);
+  }, [datasets, datasetName]);
 
   const sharedStates = Object.keys(obesityData).filter((state) =>
     diabetesData.hasOwnProperty(state),
@@ -147,7 +143,7 @@ export const ObesityVsDiabetes = () => {
           },
         }}
         config={{ responsive: true }}
-        style={{ width: "100%", height: "60vh" }}
+        style={{ width: "100%", height: "500px" }}
       />
     </Box>
   );

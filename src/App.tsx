@@ -47,11 +47,11 @@ const sections = [
     title: "Chronic disease",
     component: <ChronicDiseases />,
   },
-  {
-    id: "youth-wellbeing",
-    title: "Youth Wellbeing",
-    component: <Typography>Content coming soon</Typography>,
-  },
+  // {
+  //   id: "youth-wellbeing",
+  //   title: "Youth Wellbeing",
+  //   component: <Typography>Content coming soon</Typography>,
+  // },
   {
     id: "injury-and-overdose",
     title: "Injury and overdose",

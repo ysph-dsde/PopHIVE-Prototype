@@ -240,11 +240,10 @@ export const UptakeByDimension = ({ dimension }: UptakeByDimensionProps) => {
             automargin: true,
             zeroline: false,
           },
-          height: 500,
           showlegend: false,
         }}
         config={{ responsive: true }}
-        style={{ width: "100%" }}
+        style={{ width: "100%", height: "500px" }}
       />
       <Typography
         variant="caption"

@@ -35,6 +35,10 @@ const predefinedDatasets = {
     "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/Opioid%20OD/opioid_ahrq_map.csv",
   opioid_wonder_map:
     "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/Opioid%20OD/opioid_wonder_map.csv",
+  diabetes_obesity:
+    "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/Cosmos%20ED/diabetes_obesity.csv",
+  vax_age_nis:
+    "https://raw.githubusercontent.com/ysph-dsde/PopHIVE_DataHub/refs/heads/main/Data/Plot%20Files/childhood_immunizations/vax_age_nis.csv",
   // Add other predefined dataset URLs here
 };
 

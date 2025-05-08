@@ -55,14 +55,14 @@ export const NationalSelfHarm = () => {
   });
 
   const layout = {
-    height: 600,
-    width: 600,
+    height: "500px",
+    width: "100%",
     showlegend: true,
     title: { text: "Self harm among youths (CDC/WISQARS)", x: 0.5 },
     margin: { l: 80, r: 40, t: 80, b: 80 },
     annotations: [
       {
-        text: "10 to 14",
+        text: "Ages 10 to 14",
         x: 0.5,
         y: 1.1,
         showarrow: false,
@@ -70,7 +70,7 @@ export const NationalSelfHarm = () => {
         yref: "y domain",
       },
       {
-        text: "15 to 19",
+        text: "Ages 15 to 19",
         x: 0.5,
         y: 1.1,
         showarrow: false,
@@ -78,7 +78,7 @@ export const NationalSelfHarm = () => {
         yref: "y2 domain",
       },
       {
-        text: "20 to 24",
+        text: "Ages 20 to 24",
         x: 0.5,
         y: 1.1,
         showarrow: false,
@@ -86,7 +86,7 @@ export const NationalSelfHarm = () => {
         yref: "y3 domain",
       },
       {
-        text: "25 to 29",
+        text: "Ages 25 to 29",
         x: 0.5,
         y: 1.1,
         showarrow: false,

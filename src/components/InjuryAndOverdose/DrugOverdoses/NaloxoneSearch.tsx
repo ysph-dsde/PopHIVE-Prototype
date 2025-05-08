@@ -105,7 +105,7 @@ export const NaloxoneSearch = () => {
           showlegend: false,
         }}
         config={{ responsive: true }}
-        style={{ width: "100%" }}
+        style={{ width: "100%", height: "500px" }}
       />
     </Box>
   );

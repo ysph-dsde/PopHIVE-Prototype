@@ -227,7 +227,7 @@ export const TrendsPlot = ({
             autosize: true,
           }}
           config={{ responsive: true }}
-          style={{ width: "100%", height: "400px" }}
+          style={{ width: "100%", height: "500px" }}
         />
       )}
       <Typography

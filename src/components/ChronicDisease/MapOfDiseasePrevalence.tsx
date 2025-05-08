@@ -72,24 +72,18 @@ export const MapOfDiseasePrevalence = ({
   disease,
 }: MapOfDiseasePrevalenceProps) => {
   const [data, setData] = useState<DataEntry[]>([]);
+  const { datasets } = useData();
+  const datasetName = "diabetes_obesity";
 
   useEffect(() => {
-    fetch("/diabetes_obesity.csv")
-      .then((res) => res.text())
-      .then((csv) => {
-        const parsed = Papa.parse(csv, {
-          header: true,
-          dynamicTyping: true,
-        });
-        setData(
-          parsed.data.filter(
-            (row: DataEntry) =>
-              row.age_level === "Total" && row.outcome_name === disease,
-          ),
-        );
-        // setData(parsed.data);
-      });
-  }, []);
+    if (!datasets[datasetName]) return;
+    setData(
+      datasets[datasetName].filter(
+        (row: DataEntry) =>
+          row.age_level === "Total" && row.outcome_name === disease,
+      ),
+    );
+  }, [datasets, datasetName]);
 
   const trace = {
     type: "choropleth",
@@ -141,7 +135,7 @@ export const MapOfDiseasePrevalence = ({
           },
         }}
         config={{ responsive: true }}
-        style={{ width: "100%", height: "60vh" }}
+        style={{ width: "100%", height: "500px" }}
       />
     </Box>
   );

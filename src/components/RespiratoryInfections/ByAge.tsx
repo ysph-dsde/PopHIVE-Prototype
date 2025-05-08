@@ -251,7 +251,7 @@ const ByAge = ({ disease }: ByAgeProps) => {
             autosize: true,
           }}
           config={{ responsive: true }}
-          style={{ width: "100%", height: "600px" }}
+          style={{ width: "100%", height: "400px" }}
         />
       )}
 
@@ -270,7 +270,7 @@ const ByAge = ({ disease }: ByAgeProps) => {
             autosize: true,
           }}
           config={{ responsive: true }}
-          style={{ width: "100%", height: "600px" }}
+          style={{ width: "100%", height: "400px" }}
         />
       )}
 

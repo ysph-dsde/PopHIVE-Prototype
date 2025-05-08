@@ -182,7 +182,7 @@ const StateMap = ({ disease }: StateMapProps) => {
           },
         }}
         config={{ responsive: true }}
-        style={{ width: "100%", height: "60vh" }}
+        style={{ width: "100%", height: "100%" }}
       />
       <Typography variant="h6">Date</Typography>
       <Slider

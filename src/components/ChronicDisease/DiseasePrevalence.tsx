@@ -38,34 +38,27 @@ export const DiseasePrevalence = ({ disease }: DiseasePrevalenceProps) => {
     useState<string[]>(defaultGeographies);
   const [allGeographies, setAllGeographies] = useState<string[]>([]);
   const [data, setData] = useState<DataEntry[]>([]);
+  const { datasets } = useData();
+  const datasetName = "diabetes_obesity";
 
   useEffect(() => {
-    fetch("/diabetes_obesity.csv")
-      .then((res) => res.text())
-      .then((csv) => {
-        const parsed = Papa.parse(csv, {
-          header: true,
-          dynamicTyping: true,
-        });
-        const data = parsed.data as DataEntry[];
-        setData(
-          data.filter(
-            (row: DataEntry) =>
-              row.outcome_name === disease && row.Outcome_value1 != null,
-          ),
-        );
-        const geos = Array.from(
-          new Set(
-            data
-              .map((row) => row.geography)
-              .filter(
-                (g): g is string => typeof g === "string" && g.trim() !== "",
-              ),
-          ),
-        ).sort();
-        setAllGeographies(geos);
-      });
-  }, []);
+    if (!datasets[datasetName]) return;
+    const data = datasets[datasetName] as DataEntry[];
+    setData(
+      data.filter(
+        (row: DataEntry) =>
+          row.outcome_name === disease && row.Outcome_value1 != null,
+      ),
+    );
+    const geos = Array.from(
+      new Set(
+        data
+          .map((row) => row.geography)
+          .filter((g): g is string => typeof g === "string" && g.trim() !== ""),
+      ),
+    ).sort();
+    setAllGeographies(geos);
+  }, [datasets, datasetName]);
 
   const traces = selectedGeographies.map((geo) => {
     const dataForGeo = data.filter((row) => row.geography === geo);
@@ -138,7 +131,7 @@ export const DiseasePrevalence = ({ disease }: DiseasePrevalenceProps) => {
           showlegend: true,
         }}
         config={{ responsive: true }}
-        style={{ width: "100%", height: "60vh" }}
+        style={{ width: "100%", height: "500px" }}
       />
     </Box>
   );

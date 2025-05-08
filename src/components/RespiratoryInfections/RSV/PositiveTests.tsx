@@ -110,7 +110,7 @@ const PositiveTests = () => {
             },
           }}
           config={{ responsive: true }}
-          style={{ width: "100%", height: "800px" }}
+          style={{ width: "100%", height: "500px" }}
         />
       )}
 

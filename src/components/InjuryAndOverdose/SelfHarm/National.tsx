@@ -55,8 +55,6 @@ export const NationalSelfHarm = () => {
   });
 
   const layout = {
-    height: "500px",
-    width: "100%",
     showlegend: true,
     title: { text: "Self harm among youths (CDC/WISQARS)", x: 0.5 },
     margin: { l: 80, r: 40, t: 80, b: 80 },
@@ -157,6 +155,7 @@ export const NationalSelfHarm = () => {
     <Plot
       data={traces}
       layout={layout}
+      style={{ width: "90%", height: "700px" }}
     />
   );
 };

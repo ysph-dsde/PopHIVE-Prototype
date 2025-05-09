@@ -59,8 +59,31 @@ export const OverallTrends = ({ disease }: OverallTrendsProps) => {
         /g/11j30ybfx6) ).
       </>
     ),
-    flu: <>Filler text for flu.</>,
-    covid: <>Filler text for covid.</>,
+    flu: (
+      <>
+        Viral levels in the community can be measured in different ways, which
+        is important because no measure is perfect. By triangulating data from
+        sources like emergency department (ED) visits, hospitalizations, and
+        wastewater surveillance, we can get a more complete picture of how and
+        when a virus is spreading, which can help you make better-informed
+        decisions. Epic data come from the{" "}
+        <Link href="https://www.epicresearch.org/about-us">Epic Cosmos</Link>.
+      </>
+    ),
+    covid: (
+      <>
+        Filler text for covid.Viral levels in the community can be measured in
+        different ways, which is important because no measure is perfect. By
+        triangulating data from sources like emergency department (ED) visits,
+        hospitalizations, and wastewater surveillance, we can get a more
+        complete picture of how and when a virus is spreading, which can help
+        you make better-informed decisions. Epic data come from the{" "}
+        <Link href="https://www.epicresearch.org/about-us">
+          Epic Cosmos platform
+        </Link>
+        .
+      </>
+    ),
   };
 
   return (

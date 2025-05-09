@@ -47,12 +47,13 @@ export const ByAge = ({ disease }: ByAgeProps) => {
   const [useRescaledData, setUseRescaledData] = useState<boolean>(true);
 
   useEffect(() => {
-    if (!datasets[hospDatasetName] && !datasets[epicDatasetName]) return;
+    if (!datasets[hospDatasetName] || !datasets[epicDatasetName]) return;
     if (selectedState) {
       setFilteredData(
         datasets[epicDatasetName].filter(
           (row) =>
-            row.outcome_name === "RSV" && row.geography === selectedState,
+            row.outcome_name === disease.toUpperCase() &&
+            row.geography === selectedState,
         ),
       );
 
@@ -123,8 +124,7 @@ export const ByAge = ({ disease }: ByAgeProps) => {
       const levelData = filteredHospitalData.filter(
         (row) => row.Level === level,
       );
-      const hoverTemplate =
-        "Date: %{x}<br>Rescaled RSV: %{y}<br>Age: %{text} <extra></extra>";
+      const hoverTemplate = `Date: %{x}<br>Rescaled RSV: %{y}<br>Age: %{text} <extra></extra>`;
       return {
         x: levelData.map((row) => row.date),
         y: levelData.map((row) => row.scale_age),
@@ -172,7 +172,7 @@ export const ByAge = ({ disease }: ByAgeProps) => {
           data={traces}
           layout={{
             title: {
-              text: `ED visits for RSV in ${selectedState}`,
+              text: `ED visits for ${disease.toUpperCase()} in ${selectedState}`,
             },
             xaxis: {
               title: "Date",
@@ -180,8 +180,8 @@ export const ByAge = ({ disease }: ByAgeProps) => {
             yaxis: {
               title: {
                 text: useRescaledData
-                  ? "Rescaled ED visits for RSV (Epic Cosmos)"
-                  : "Percent of ED visits for RSV (Epic Cosmos)",
+                  ? `Rescaled ED visits for ${disease.toUpperCase()} (Epic Cosmos)`
+                  : `Percent of ED visits for ${disease.toUpperCase()} (Epic Cosmos)`,
               },
             },
             legend: { title: { text: "Age group" } },

@@ -1,12 +1,12 @@
 {
   "files": {
-    "main.js": "/static/js/main.ffa40c9e.js",
+    "main.js": "/static/js/main.03342258.js",
     "static/media/typeOfOpioid.png": "/static/media/typeOfOpioid.7673883992c770c56564.png",
     "static/media/ysphLogo.png": "/static/media/ysphLogo.5722dacfa46a8cb69e1a.png",
     "index.html": "/index.html",
-    "main.ffa40c9e.js.map": "/static/js/main.ffa40c9e.js.map"
+    "main.03342258.js.map": "/static/js/main.03342258.js.map"
   },
   "entrypoints": [
-    "static/js/main.ffa40c9e.js"
+    "static/js/main.03342258.js"
   ]
 }
